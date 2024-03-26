@@ -99,6 +99,7 @@ local function handleOnNewProcessing(dataContent, filename)
         end
       end
     else
+      -- JSON
       local tempFile
       if filename then
         tempFile = File.open(processingParams.path .. filename .. '.' .. processingParams.dataType, 'wb' )

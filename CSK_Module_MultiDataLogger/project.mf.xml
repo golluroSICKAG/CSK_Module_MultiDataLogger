@@ -8,14 +8,14 @@
             <trait>released</trait>
             <desc>Module to store / log data like files or images. +
 {empty} +
-Typically the feature of this module is used like this (check also main script of this module): +
+Typically, the feature of this module is used like this (check also main script of this module): +
 {empty} +
 **1) Setup** +
 - Set instance to configure via 'setSelectedInstance' +
-- Set data mode and storage path via 'setDataMode', 'setPath'. +
+- Set data mode and storage path via 'setDataMode' and 'setPath'. +
 - Set type of data or image via 'setDataType' or 'setImageType'. +
-- If it should store data in a csv file, you should set the csv filename via 'setCSVFilename', the csv labels via 'setCSVLabels'. Additionally choose mode for 'setSaveOnlyChanges' and 'setSaveDataDirectly'. +
-- Set an event to receive the data / image to store via 'setRegisterEvent'. This event should provide as first parameter the data to store and as 2nd parameter an optional filename (2nd parameter not needed if data type is 'csv'). Otherwise it will use the timestamp as filename. +</desc>
+- If it should store data in a CSV-formatted file, you should set the CSV filename via 'setCSVFilename', the CSV labels via 'setCSVLabels'. Additionally, choose mode for 'setSaveOnlyChanges' and 'setSaveDataDirectly'. +
+- Set an event to receive the data / image to store via 'setRegisterEvent'. This event should provide as first parameter the data to store and as second parameter an optional filename (2nd parameter not needed, if data type is 'csv'). Otherwise, it will use the timestamp as filename. +</desc>
             <enum name="DataMode" trait="released">
                 <desc>Mode of data to store.</desc>
                 <item desc="Store files" name="file">file</item>
@@ -32,7 +32,7 @@ Typically the feature of this module is used like this (check also main script o
                 <item desc="PNG" name="png">png</item>
                 <item desc="JPEG" name="jpg">jpg</item>
                 <item desc="JSON" name="json">json</item>
-                <item desc="MSPACK" name="msgpack">msgpack</item>
+                <item desc="MSGPACK" name="msgpack">msgpack</item>
             </enum>
             <serves>
                 <event name="OnNewStatusLoadParameterOnReboot">
@@ -52,7 +52,7 @@ Typically the feature of this module is used like this (check also main script o
                     <param desc="Number of the instance to receive the parameter." multiplicity="1" name="objectNo" type="int"/>
                     <param desc="Name of the parameter." multiplicity="1" name="parameter" type="string"/>
                     <param desc="Value of the parameter." multiplicity="1" name="value" type="auto"/>
-                    <param desc="If parameter is for specifici internal used object, its number." multiplicity="?" name="internalObjectNo" type="int"/>
+                    <param desc="If parameter is for a specific internally used object, then it is its number." multiplicity="?" name="internalObjectNo" type="int"/>
                 </event>
                 <event name="OnNewSelectedInstance">
                     <desc>Notify if new instance is selected.</desc>
@@ -82,16 +82,16 @@ Typically the feature of this module is used like this (check also main script o
                     <param desc="Status" multiplicity="1" name="status" type="bool"/>
                 </event>
                 <event name="OnNewValueUpdateNUM">
-                    <desc>Example of dynamically created event to sync paramters between instance threads and Controller part of module. +
-NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
+                    <desc>Example of dynamically created event to sync parameters between instance threads and Controller part of module. +
+NUM will be replaced by the number of instance (e.g. "OnNewValueUpdate1"). +</desc>
                     <param desc="Instance new value is coming from." multiplicity="1" name="instance" type="int"/>
-                    <param desc="Name of the paramter to update/sync." multiplicity="1" name="parameter" type="string"/>
+                    <param desc="Name of the parameter to update/sync." multiplicity="1" name="parameter" type="string"/>
                     <param desc="Value to update." multiplicity="1" name="value" type="auto"/>
                     <param desc="Optionally if internal parameter should be used for internal objects." multiplicity="?" name="selectedObject" type="int"/>
                 </event>
                 <event name="OnNewValueToForwardNUM">
                     <desc>Example of dynamically created event to forward data from instance thread to Controller part of module, e.g. to forward values to UI. +
-NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
+NUM will be replaced by the number of instance (e.g. "OnNewValueToForward1"). +</desc>
                     <param desc="Eventname to use to forward value." multiplicity="1" name="eventname" type="string"/>
                     <param desc="Value to forward." multiplicity="1" name="value" type="auto"/>
                 </event>
@@ -154,7 +154,7 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                     <desc>Load parameters for this module from the CSK_PersistentData module if possible and use them.</desc>
                 </function>
                 <function name="setLoadOnReboot">
-                    <desc>Configure if this module should load its saved parameters at app/ device boot up.</desc>
+                    <desc>Configure if this module should load its saved parameters at app / device boot up.</desc>
                     <param desc="Set status" multiplicity="1" name="status" type="bool"/>
                 </function>
                 <function name="pageCalled">

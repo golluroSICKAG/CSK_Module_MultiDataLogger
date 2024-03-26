@@ -224,6 +224,8 @@ local function addInstance()
   table.insert(multiDataLogger_Instances, multiDataLogger_Model.create(#multiDataLogger_Instances+1))
   Script.deregister("CSK_MultiDataLogger.OnNewValueToForward" .. tostring(#multiDataLogger_Instances) , handleOnNewValueToForward)
   Script.register("CSK_MultiDataLogger.OnNewValueToForward" .. tostring(#multiDataLogger_Instances) , handleOnNewValueToForward)
+  Script.deregister("CSK_MultiDataLogger.OnNewValueUpdate" .. tostring(#multiDataLogger_Instances) , handleOnNewValueUpdate)
+  Script.register("CSK_MultiDataLogger.OnNewValueUpdate" .. tostring(#multiDataLogger_Instances) , handleOnNewValueUpdate)
   handleOnExpiredTmrMultiDataLogger()
 end
 Script.serveFunction('CSK_MultiDataLogger.addInstance', addInstance)
@@ -268,10 +270,17 @@ local function updateProcessingParameters()
 end
 
 local function setPath(path)
-  _G.logger:fine(nameOfModule .. ": Set path to " .. path)
-  multiDataLogger_Instances[selectedInstance].parameters.path = path
-  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'path', path)
-  Script.notifyEvent("MultiDataLogger_OnNewStatusStoragePath", path)
+  local newPath
+  if string.sub(path, #path, #path) == '/' then
+    newPath = path
+  else
+    newPath = path .. '/'
+  end
+
+  _G.logger:fine(nameOfModule .. ": Set path to " .. newPath)
+  multiDataLogger_Instances[selectedInstance].parameters.path = newPath
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'path', newPath)
+  Script.notifyEvent("MultiDataLogger_OnNewStatusStoragePath", newPath)
 end
 Script.serveFunction('CSK_MultiDataLogger.setPath', setPath)
 
@@ -463,4 +472,3 @@ return funcs
 --**************************************************************************
 --**********************End Function Scope *********************************
 --**************************************************************************
-

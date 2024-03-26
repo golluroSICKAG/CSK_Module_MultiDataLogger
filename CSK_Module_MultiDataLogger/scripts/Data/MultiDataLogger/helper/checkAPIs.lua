@@ -8,14 +8,15 @@ local availableAPIs = {}
 local function loadAPIs()
   CSK_MultiDataLogger = require 'API.CSK_MultiDataLogger'
 
-  Container = require 'API.Container'
-  DateTime = require 'API.DateTime'
-  Engine = require 'API.Engine'
-  File = require 'API.File'
-  Image = require 'API.Image'
   Log = require 'API.Log'
   Log.Handler = require 'API.Log.Handler'
   Log.SharedLogger = require 'API.Log.SharedLogger'
+
+  Container = require 'API.Container'
+  Engine = require 'API.Engine'
+  DateTime = require 'API.DateTime'
+  File = require 'API.File'
+  Image = require 'API.Image'
   Object = require 'API.Object'
   Timer = require 'API.Timer'
 
