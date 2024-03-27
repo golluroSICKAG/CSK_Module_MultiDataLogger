@@ -17,6 +17,11 @@ local tmrMultiDataLogger = Timer.create()
 tmrMultiDataLogger:setExpirationTime(300)
 tmrMultiDataLogger:setPeriodic(false)
 
+-- Timer to wait for other modules to be ready to register to their events
+local tmrWaitForSetupOfOtherModules = Timer.create()
+tmrWaitForSetupOfOtherModules:setExpirationTime(1000)
+tmrWaitForSetupOfOtherModules:setPeriodic(false)
+
 local multiDataLogger_Model -- Reference to model handle
 local multiDataLogger_Instances -- Reference to instances handle
 local selectedInstance = 1 -- Which instance is currently selected
@@ -25,20 +30,27 @@ local helperFuncs = require('Data/MultiDataLogger/helper/funcs')
 -- ************************ UI Events Start ********************************
 -- Only to prevent WARNING messages, but these are only examples/placeholders for dynamically created events/functions
 ----------------------------------------------------------------
-local function emptyFunction()
-end
-Script.serveFunction("CSK_MultiDataLogger.processInstanceNUM", emptyFunction)
-
-Script.serveEvent("CSK_MultiDataLogger.OnNewResultNUM", "MultiDataLogger_OnNewResultNUM")
 Script.serveEvent("CSK_MultiDataLogger.OnNewValueToForwardNUM", "MultiDataLogger_OnNewValueToForwardNUM")
 Script.serveEvent("CSK_MultiDataLogger.OnNewValueUpdateNUM", "MultiDataLogger_OnNewValueUpdateNUM")
 ----------------------------------------------------------------
 
 -- Real events
 --------------------------------------------------
--- Script.serveEvent("CSK_MultiDataLogger.OnNewEvent", "MultiDataLogger_OnNewEvent")
-Script.serveEvent('CSK_MultiDataLogger.OnNewResult', 'MultiDataLogger_OnNewResult')
 
+Script.serveEvent('CSK_MultiDataLogger.OnNewStatusStoragePath', 'MultiDataLogger_OnNewStatusStoragePath')
+Script.serveEvent('CSK_MultiDataLogger.OnNewStatusDataMode', 'MultiDataLogger_OnNewStatusDataMode')
+Script.serveEvent('CSK_MultiDataLogger.OnNewStatusDataType', 'MultiDataLogger_OnNewStatusDataType')
+
+Script.serveEvent('CSK_MultiDataLogger.OnNewStatusCSVFilename', 'MultiDataLogger_OnNewStatusCSVFilename')
+
+Script.serveEvent('CSK_MultiDataLogger.OnNewStatusCSVLables', 'MultiDataLogger_OnNewStatusCSVLables')
+Script.serveEvent("CSK_MultiDataLogger.OnNewStatusSaveDataDirectly", "MultiDataLogger_OnNewStatusSaveDataDirectly")
+Script.serveEvent("CSK_MultiDataLogger.OnNewStatusSaveOnlyChanges", "MultiDataLogger_OnNewStatusSaveOnlyChanges")
+
+Script.serveEvent('CSK_MultiDataLogger.OnNewStatusImageType', 'MultiDataLogger_OnNewStatusImageType')
+Script.serveEvent('CSK_MultiDataLogger.OnNewStatusImageCompressionValue', 'MultiDataLogger_OnNewStatusImageCompressionValue')
+
+Script.serveEvent('CSK_MultiDataLogger.OnNewStatusAvailableEvents', 'MultiDataLogger_OnNewStatusAvailableEvents')
 Script.serveEvent('CSK_MultiDataLogger.OnNewStatusRegisteredEvent', 'MultiDataLogger_OnNewStatusRegisteredEvent')
 
 Script.serveEvent("CSK_MultiDataLogger.OnNewStatusLoadParameterOnReboot", "MultiDataLogger_OnNewStatusLoadParameterOnReboot")
@@ -55,17 +67,7 @@ Script.serveEvent("CSK_MultiDataLogger.OnUserLevelMaintenanceActive", "MultiData
 Script.serveEvent("CSK_MultiDataLogger.OnUserLevelServiceActive", "MultiDataLogger_OnUserLevelServiceActive")
 Script.serveEvent("CSK_MultiDataLogger.OnUserLevelAdminActive", "MultiDataLogger_OnUserLevelAdminActive")
 
--- ...
-
 -- ************************ UI Events End **********************************
-
---[[
---- Some internal code docu for local used function
-local function functionName()
-  -- Do something
-
-end
-]]
 
 --**************************************************************************
 --********************** End Global Scope **********************************
@@ -165,20 +167,32 @@ end
 
 --- Function to send all relevant values to UI on resume
 local function handleOnExpiredTmrMultiDataLogger()
-  -- Script.notifyEvent("MultiDataLogger_OnNewEvent", false)
 
   updateUserLevel()
 
   Script.notifyEvent('MultiDataLogger_OnNewSelectedInstance', selectedInstance)
   Script.notifyEvent("MultiDataLogger_OnNewInstanceList", helperFuncs.createStringListBySize(#multiDataLogger_Instances))
 
+  local eventList = helperFuncs.getAvailableEvents()
+  Script.notifyEvent("MultiDataLogger_OnNewStatusAvailableEvents", helperFuncs.createStringListBySimpleTable(eventList))
+
   Script.notifyEvent("MultiDataLogger_OnNewStatusRegisteredEvent", multiDataLogger_Instances[selectedInstance].parameters.registeredEvent)
+  Script.notifyEvent("MultiDataLogger_OnNewStatusStoragePath", multiDataLogger_Instances[selectedInstance].parameters.path)
+
+  Script.notifyEvent("MultiDataLogger_OnNewStatusDataMode", multiDataLogger_Instances[selectedInstance].parameters.dataMode)
+  Script.notifyEvent("MultiDataLogger_OnNewStatusDataType", multiDataLogger_Instances[selectedInstance].parameters.dataType)
+
+  Script.notifyEvent("MultiDataLogger_OnNewStatusCSVFilename", multiDataLogger_Instances[selectedInstance].parameters.csvFilename)
+  Script.notifyEvent("MultiDataLogger_OnNewStatusCSVLables", multiDataLogger_Instances[selectedInstance].parameters.csvLabels)
+  Script.notifyEvent("MultiDataLogger_OnNewStatusSaveDataDirectly", multiDataLogger_Instances[selectedInstance].parameters.saveDataDirectly)
+  Script.notifyEvent("MultiDataLogger_OnNewStatusSaveOnlyChanges", multiDataLogger_Instances[selectedInstance].parameters.saveOnlyChanges)
+
+  Script.notifyEvent("MultiDataLogger_OnNewStatusImageType", multiDataLogger_Instances[selectedInstance].parameters.imageType)
+  Script.notifyEvent("MultiDataLogger_OnNewStatusImageCompressionValue", multiDataLogger_Instances[selectedInstance].parameters.imageCompressionValue)
 
   Script.notifyEvent("MultiDataLogger_OnNewStatusLoadParameterOnReboot", multiDataLogger_Instances[selectedInstance].parameterLoadOnReboot)
   Script.notifyEvent("MultiDataLogger_OnPersistentDataModuleAvailable", multiDataLogger_Instances[selectedInstance].persistentModuleAvailable)
   Script.notifyEvent("MultiDataLogger_OnNewParameterName", multiDataLogger_Instances[selectedInstance].parametersName)
-
-  -- ...
 end
 Timer.register(tmrMultiDataLogger, "OnExpired", handleOnExpiredTmrMultiDataLogger)
 
@@ -193,7 +207,7 @@ Script.serveFunction("CSK_MultiDataLogger.pageCalled", pageCalled)
 
 local function setSelectedInstance(instance)
   selectedInstance = instance
-  _G.logger:info(nameOfModule .. ": New selected instance = " .. tostring(selectedInstance))
+  _G.logger:fine(nameOfModule .. ": New selected instance = " .. tostring(selectedInstance))
   multiDataLogger_Instances[selectedInstance].activeInUI = true
   Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'activeInUI', true)
   tmrMultiDataLogger:start()
@@ -206,10 +220,12 @@ end
 Script.serveFunction("CSK_MultiDataLogger.getInstancesAmount", getInstancesAmount)
 
 local function addInstance()
-  _G.logger:info(nameOfModule .. ": Add instance")
+  _G.logger:fine(nameOfModule .. ": Add instance")
   table.insert(multiDataLogger_Instances, multiDataLogger_Model.create(#multiDataLogger_Instances+1))
   Script.deregister("CSK_MultiDataLogger.OnNewValueToForward" .. tostring(#multiDataLogger_Instances) , handleOnNewValueToForward)
   Script.register("CSK_MultiDataLogger.OnNewValueToForward" .. tostring(#multiDataLogger_Instances) , handleOnNewValueToForward)
+  Script.deregister("CSK_MultiDataLogger.OnNewValueUpdate" .. tostring(#multiDataLogger_Instances) , handleOnNewValueUpdate)
+  Script.register("CSK_MultiDataLogger.OnNewValueUpdate" .. tostring(#multiDataLogger_Instances) , handleOnNewValueUpdate)
   handleOnExpiredTmrMultiDataLogger()
 end
 Script.serveFunction('CSK_MultiDataLogger.addInstance', addInstance)
@@ -228,35 +244,132 @@ end
 Script.serveFunction('CSK_MultiDataLogger.resetInstances', resetInstances)
 
 local function setRegisterEvent(event)
-  multiDataLogger_Instances[selectedInstance].parameters.registeredEvent = event
-  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'registeredEvent', event)
+  if Script.isServedAsEvent(event) then
+    multiDataLogger_Instances[selectedInstance].parameters.registeredEvent = event
+    Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'registeredEvent', event)
+  else
+    _G.logger:warning(nameOfModule .. ": Event '" .. event .. "' is not available to register.")
+    Script.notifyEvent("MultiDataLogger_OnNewStatusRegisteredEvent", multiDataLogger_Instances[selectedInstance].parameters.registeredEvent)
+  end
 end
 Script.serveFunction("CSK_MultiDataLogger.setRegisterEvent", setRegisterEvent)
 
 --- Function to share process relevant configuration with processing threads
 local function updateProcessingParameters()
   Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'activeInUI', true)
-
   Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'registeredEvent', multiDataLogger_Instances[selectedInstance].parameters.registeredEvent)
 
-  --Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'value', multiDataLogger_Instances[selectedInstance].parameters.value)
-
-  -- optionally for internal objects...
-  --[[
-  -- Send config to instances
-  local params = helperFuncs.convertTable2Container(multiDataLogger_Instances[selectedInstance].parameters.internalObject)
-  Container.add(data, 'internalObject', params, 'OBJECT')
-  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'FullSetup', data)
-  ]]
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'path', multiDataLogger_Instances[selectedInstance].parameters.path)
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'dataMode', multiDataLogger_Instances[selectedInstance].parameters.dataMode)
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'dataType', multiDataLogger_Instances[selectedInstance].parameters.dataType)
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'csvFilename', multiDataLogger_Instances[selectedInstance].parameters.csvFilename)
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'csvLabels', multiDataLogger_Instances[selectedInstance].parameters.csvLabels)
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'imageType', multiDataLogger_Instances[selectedInstance].parameters.imageType)
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'imageCompressionValue', multiDataLogger_Instances[selectedInstance].parameters.selectedInstance)
 
 end
+
+local function setPath(path)
+  local newPath
+  if string.sub(path, #path, #path) == '/' then
+    newPath = path
+  else
+    newPath = path .. '/'
+  end
+
+  _G.logger:fine(nameOfModule .. ": Set path to " .. newPath)
+  multiDataLogger_Instances[selectedInstance].parameters.path = newPath
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'path', newPath)
+  Script.notifyEvent("MultiDataLogger_OnNewStatusStoragePath", newPath)
+end
+Script.serveFunction('CSK_MultiDataLogger.setPath', setPath)
+
+local function checkCompressionValue()
+  if multiDataLogger_Instances[selectedInstance].parameters.imageType == 'jpg' then
+    multiDataLogger_Instances[selectedInstance].parameters.imageCompressionValue = 95
+  elseif multiDataLogger_Instances[selectedInstance].parameters.imageType == 'png' then
+    multiDataLogger_Instances[selectedInstance].parameters.imageCompressionValue = 6
+  end
+  Script.notifyEvent("MultiDataLogger_OnNewStatusImageCompressionValue", multiDataLogger_Instances[selectedInstance].parameters.imageCompressionValue)
+end
+
+local function setDataMode(mode)
+  _G.logger:fine(nameOfModule .. ": Set dataMode to " .. mode)
+  multiDataLogger_Instances[selectedInstance].parameters.dataMode = mode
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'dataMode', mode)
+
+  Script.notifyEvent("MultiDataLogger_OnNewStatusDataMode", mode)
+
+  if dataType == 'image' then
+    Script.notifyEvent("MultiDataLogger_OnNewStatusImageType", multiDataLogger_Instances[selectedInstance].parameters.imageType)
+    checkCompressionValue()
+  end
+end
+Script.serveFunction('CSK_MultiDataLogger.setDataMode', setDataMode)
+
+local function setDataType(dataType)
+  _G.logger:fine(nameOfModule .. ": Set dataType to " .. dataType)
+  multiDataLogger_Instances[selectedInstance].parameters.dataType = dataType
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'dataType', dataType)
+  Script.notifyEvent("MultiDataLogger_OnNewStatusDataType", multiDataLogger_Instances[selectedInstance].parameters.dataType)
+end
+Script.serveFunction('CSK_MultiDataLogger.setDataType', setDataType)
+
+local function setCSVFilename(name)
+  _G.logger:fine(nameOfModule .. ": Set csv filename to " .. labels)
+  multiDataLogger_Instances[selectedInstance].parameters.csvFilename = name
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'csvFilename', name)
+end
+Script.serveFunction('CSK_MultiDataLogger.setCSVFilename', setCSVFilename)
+
+local function setCSVLabels(labels)
+  _G.logger:fine(nameOfModule .. ": Set csv labels to " .. labels)
+  multiDataLogger_Instances[selectedInstance].parameters.csvLabels = labels
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'csvLabels', labels)
+end
+Script.serveFunction('CSK_MultiDataLogger.setCSVLabels', setCSVLabels)
+
+local function setSaveOnlyChanges(status)
+  multiDataLogger_Instances[selectedInstance].parameters.saveOnlyChanges = status
+  _G.logger:info(nameOfModule .. ': Set CSV "save changes only" mode to = ' .. tostring(status))
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'saveOnlyChanges', status)
+end
+Script.serveFunction("CSK_MultiDataLogger.setSaveOnlyChanges", setSaveOnlyChanges)
+
+local function setSaveDataDirectly(status)
+  multiDataLogger_Instances[selectedInstance].parameters.saveDataDirectly = status
+  _G.logger:info(nameOfModule .. ': Set CSV direct save mode to = ' .. tostring(status))
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'saveDataDirectly', status)
+end
+Script.serveFunction("CSK_MultiDataLogger.setSaveDataDirectly", setSaveDataDirectly)
+
+local function saveCSVFile()
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'saveCSVFile', true)
+end
+Script.serveFunction('CSK_MultiDataLogger.saveCSVFile', saveCSVFile)
+
+local function setImageType(imgType)
+  _G.logger:fine(nameOfModule .. ": Set image type to " .. imgType)
+  multiDataLogger_Instances[selectedInstance].parameters.imageType = imgType
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'imageType', imgType)
+  Script.notifyEvent("MultiDataLogger_OnNewStatusImageType", imgType)
+  checkCompressionValue()
+end
+Script.serveFunction('CSK_MultiDataLogger.setImageType', setImageType)
+
+local function setCompressionValue(value)
+  _G.logger:fine(nameOfModule .. ": Set image compression value to " .. value)
+  multiDataLogger_Instances[selectedInstance].parameters.imageCompressionValue = value
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'imageCompressionValue', value)
+end
+Script.serveFunction('CSK_MultiDataLogger.setCompressionValue', setCompressionValue)
 
 -- *****************************************************************
 -- Following function can be adapted for CSK_PersistentData module usage
 -- *****************************************************************
 
 local function setParameterName(name)
-  _G.logger:info(nameOfModule .. ": Set parameter name = " .. tostring(name))
+  _G.logger:fine(nameOfModule .. ": Set parameter name = " .. tostring(name))
   multiDataLogger_Instances[selectedInstance].parametersName = name
 end
 Script.serveFunction("CSK_MultiDataLogger.setParameterName", setParameterName)
@@ -271,7 +384,7 @@ local function sendParameters()
     else
       CSK_PersistentData.setModuleParameterName(nameOfModule, multiDataLogger_Instances[selectedInstance].parametersName, multiDataLogger_Instances[selectedInstance].parameterLoadOnReboot, tostring(selectedInstance))
     end
-    _G.logger:info(nameOfModule .. ": Send MultiDataLogger parameters with name '" .. multiDataLogger_Instances[selectedInstance].parametersName .. "' to CSK_PersistentData module.")
+    _G.logger:fine(nameOfModule .. ": Send MultiDataLogger parameters with name '" .. multiDataLogger_Instances[selectedInstance].parametersName .. "' to CSK_PersistentData module.")
     CSK_PersistentData.saveData()
   else
     _G.logger:warning(nameOfModule .. ": CSK_PersistentData module not available.")
@@ -283,12 +396,12 @@ local function loadParameters()
   if multiDataLogger_Instances[selectedInstance].persistentModuleAvailable then
     local data = CSK_PersistentData.getParameter(multiDataLogger_Instances[selectedInstance].parametersName)
     if data then
-      _G.logger:info(nameOfModule .. ": Loaded parameters for multiDataLoggerObject " .. tostring(selectedInstance) .. " from CSK_PersistentData module.")
+      _G.logger:fine(nameOfModule .. ": Loaded parameters for multiDataLoggerObject " .. tostring(selectedInstance) .. " from CSK_PersistentData module.")
       multiDataLogger_Instances[selectedInstance].parameters = helperFuncs.convertContainer2Table(data)
 
       -- If something needs to be configured/activated with new loaded data
       updateProcessingParameters()
-      CSK_MultiDataLogger.pageCalled()
+      handleOnExpiredTmrMultiDataLogger()
     else
       _G.logger:warning(nameOfModule .. ": Loading parameters from CSK_PersistentData module did not work.")
     end
@@ -301,14 +414,14 @@ Script.serveFunction("CSK_MultiDataLogger.loadParameters", loadParameters)
 
 local function setLoadOnReboot(status)
   multiDataLogger_Instances[selectedInstance].parameterLoadOnReboot = status
-  _G.logger:info(nameOfModule .. ": Set new status to load setting on reboot: " .. tostring(status))
+  _G.logger:fine(nameOfModule .. ": Set new status to load setting on reboot: " .. tostring(status))
 end
 Script.serveFunction("CSK_MultiDataLogger.setLoadOnReboot", setLoadOnReboot)
 
---- Function to react on initial load of persistent parameters
-local function handleOnInitialDataLoaded()
+--- Function to react on timer started after initial load of persistent parameters
+local function handleOnWaitForSetupTimerExpired()
 
-  _G.logger:info(nameOfModule .. ': Try to initially load parameter from CSK_PersistentData module.')
+  _G.logger:fine(nameOfModule .. ': Try to initially load parameter from CSK_PersistentData module.')
   if string.sub(CSK_PersistentData.getVersion(), 1, 1) == '1' then
 
     _G.logger:warning(nameOfModule .. ': CSK_PersistentData module is too old and will not work. Please update CSK_PersistentData module.')
@@ -346,6 +459,12 @@ local function handleOnInitialDataLoaded()
     Script.notifyEvent('MultiDataLogger_OnDataLoadedOnReboot')
   end
 end
+Timer.register(tmrWaitForSetupOfOtherModules, 'OnExpired', handleOnWaitForSetupTimerExpired)
+
+--- Function to react on initial load of persistent parameters
+local function handleOnInitialDataLoaded()
+  tmrWaitForSetupOfOtherModules:start()
+end
 Script.register("CSK_PersistentData.OnInitialDataLoaded", handleOnInitialDataLoaded)
 
 return funcs
@@ -353,4 +472,3 @@ return funcs
 --**************************************************************************
 --**********************End Function Scope *********************************
 --**************************************************************************
-

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
 <meta name="author" content="SICK AG">
-<title>Documentation - CSK_Module_MultiDataLogger 0.1.0</title>
+<title>Documentation - CSK_Module_MultiDataLogger 1.0.0</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 /* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
@@ -615,11 +615,11 @@ h1,h2,h3,h4,h5,h6{color:#007cc1}
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Documentation - CSK_Module_MultiDataLogger 0.1.0</h1>
+<h1>Documentation - CSK_Module_MultiDataLogger 1.0.0</h1>
 <div class="details">
 <span id="author" class="author">SICK AG</span><br>
-<span id="revnumber">version 0.1.0,</span>
-<span id="revdate">2023-12-13</span>
+<span id="revnumber">version 1.0.0,</span>
+<span id="revdate">2024-03-27</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -642,12 +642,21 @@ h1,h2,h3,h4,h5,h6{color:#007cc1}
 <li><a href="#API:Function:CSK_MultiDataLogger.getInstancesAmount"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">getInstancesAmount()</span></a></li>
 <li><a href="#API:Function:CSK_MultiDataLogger.loadParameters"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">loadParameters()</span></a></li>
 <li><a href="#API:Function:CSK_MultiDataLogger.pageCalled"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">pageCalled()</span></a></li>
-<li><a href="#API:Function:CSK_MultiDataLogger.processInstanceNUM"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">processInstanceNUM()</span></a></li>
 <li><a href="#API:Function:CSK_MultiDataLogger.resetInstances"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">resetInstances()</span></a></li>
+<li><a href="#API:Function:CSK_MultiDataLogger.saveCSVFile"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">saveCSVFile()</span></a></li>
 <li><a href="#API:Function:CSK_MultiDataLogger.sendParameters"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">sendParameters()</span></a></li>
+<li><a href="#API:Function:CSK_MultiDataLogger.setCompressionValue"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setCompressionValue()</span></a></li>
+<li><a href="#API:Function:CSK_MultiDataLogger.setCSVFilename"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setCSVFilename()</span></a></li>
+<li><a href="#API:Function:CSK_MultiDataLogger.setCSVLabels"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setCSVLabels()</span></a></li>
+<li><a href="#API:Function:CSK_MultiDataLogger.setDataMode"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setDataMode()</span></a></li>
+<li><a href="#API:Function:CSK_MultiDataLogger.setDataType"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setDataType()</span></a></li>
+<li><a href="#API:Function:CSK_MultiDataLogger.setImageType"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setImageType()</span></a></li>
 <li><a href="#API:Function:CSK_MultiDataLogger.setLoadOnReboot"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setLoadOnReboot()</span></a></li>
 <li><a href="#API:Function:CSK_MultiDataLogger.setParameterName"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setParameterName()</span></a></li>
+<li><a href="#API:Function:CSK_MultiDataLogger.setPath"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setPath()</span></a></li>
 <li><a href="#API:Function:CSK_MultiDataLogger.setRegisterEvent"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setRegisterEvent()</span></a></li>
+<li><a href="#API:Function:CSK_MultiDataLogger.setSaveDataDirectly"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setSaveDataDirectly()</span></a></li>
+<li><a href="#API:Function:CSK_MultiDataLogger.setSaveOnlyChanges"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setSaveOnlyChanges()</span></a></li>
 <li><a href="#API:Function:CSK_MultiDataLogger.setSelectedInstance"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setSelectedInstance()</span></a></li>
 </ul>
 </li>
@@ -658,10 +667,19 @@ h1,h2,h3,h4,h5,h6{color:#007cc1}
 <li><a href="#API:Event:CSK_MultiDataLogger.OnNewParameterName"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewParameterName</span></a></li>
 <li><a href="#API:Event:CSK_MultiDataLogger.OnNewProcessingParameter"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewProcessingParameter</span></a></li>
 <li><a href="#API:Event:CSK_MultiDataLogger.OnNewResult"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewResult</span></a></li>
-<li><a href="#API:Event:CSK_MultiDataLogger.OnNewResultNUM"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewResultNUM</span></a></li>
 <li><a href="#API:Event:CSK_MultiDataLogger.OnNewSelectedInstance"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewSelectedInstance</span></a></li>
+<li><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusAvailableEvents"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusAvailableEvents</span></a></li>
+<li><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusCSVFilename"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusCSVFilename</span></a></li>
+<li><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusCSVLables"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusCSVLables</span></a></li>
+<li><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusDataMode"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusDataMode</span></a></li>
+<li><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusDataType"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusDataType</span></a></li>
+<li><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusImageCompressionValue"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusImageCompressionValue</span></a></li>
+<li><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusImageType"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusImageType</span></a></li>
 <li><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusLoadParameterOnReboot"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusLoadParameterOnReboot</span></a></li>
 <li><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusRegisteredEvent"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusRegisteredEvent</span></a></li>
+<li><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusSaveDataDirectly"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusSaveDataDirectly</span></a></li>
+<li><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusSaveOnlyChanges"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusSaveOnlyChanges</span></a></li>
+<li><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusStoragePath"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusStoragePath</span></a></li>
 <li><a href="#API:Event:CSK_MultiDataLogger.OnNewValueToForwardNUM"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewValueToForwardNUM</span></a></li>
 <li><a href="#API:Event:CSK_MultiDataLogger.OnNewValueUpdateNUM"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewValueUpdateNUM</span></a></li>
 <li><a href="#API:Event:CSK_MultiDataLogger.OnPersistentDataModuleAvailable"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnPersistentDataModuleAvailable</span></a></li>
@@ -673,6 +691,13 @@ h1,h2,h3,h4,h5,h6{color:#007cc1}
 </li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a href="#_enumerations">Enumerations</a>
+<ul class="sectlevel2">
+<li><a href="#API:Enum:CSK_MultiDataLogger.DataMode"><span class="api-enum">CSK_MultiDataLogger.DataMode</span></a></li>
+<li><a href="#API:Enum:CSK_MultiDataLogger.DataType"><span class="api-enum">CSK_MultiDataLogger.DataType</span></a></li>
+<li><a href="#API:Enum:CSK_MultiDataLogger.ImageFormat"><span class="api-enum">CSK_MultiDataLogger.ImageFormat</span></a></li>
 </ul>
 </li>
 </ul>
@@ -694,11 +719,11 @@ h1,h2,h3,h4,h5,h6{color:#007cc1}
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">Version</p></th>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0.1.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.0.0</p></td>
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">Date</p></th>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2023-12-13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-03-27</p></td>
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">Author</p></th>
@@ -742,15 +767,16 @@ h1,h2,h3,h4,h5,h6{color:#007cc1}
 <div class="sect3">
 <h4 id="_short_description_2">Short description</h4>
 <div class="paragraph">
-<p>Please fill in information regarding: What is the idea of this module and its features?<br>
-How to use this module in general&#8230;&#8203;. like:<br>
+<p>Module to store / log data like files or images.<br>
 <br>
-Typically the features of this module are used like this (check also main script of this module):<br>
+Typically, the feature of this module is used like this (check also main script of this module):<br>
 <br>
 <strong>1) Setup</strong><br>
-ToDo<br>
-<br>
-<strong>2) Something else&#8230;&#8203;.</strong><br></p>
+- Set instance to configure via 'setSelectedInstance'<br>
+- Set data mode and storage path via 'setDataMode' and 'setPath'.<br>
+- Set type of data or image via 'setDataType' or 'setImageType'.<br>
+- If it should store data in a CSV-formatted file, you should set the CSV filename via 'setCSVFilename', the CSV labels via 'setCSVLabels'. Additionally, choose mode for 'setSaveOnlyChanges' and 'setSaveDataDirectly'.<br>
+- Set an event to receive the data / image to store via 'setRegisterEvent'. This event should provide as first parameter the data to store and as second parameter an optional filename (2nd parameter not needed, if data type is 'csv'). Otherwise, it will use the timestamp as filename.<br></p>
 </div>
 </div>
 <div class="sect3">
@@ -770,13 +796,31 @@ ToDo<br>
 <p><a href="#API:Function:CSK_MultiDataLogger.pageCalled">pageCalled()</a></p>
 </li>
 <li>
-<p><a href="#API:Function:CSK_MultiDataLogger.processInstanceNUM">processInstanceNUM()</a></p>
-</li>
-<li>
 <p><a href="#API:Function:CSK_MultiDataLogger.resetInstances">resetInstances()</a></p>
 </li>
 <li>
+<p><a href="#API:Function:CSK_MultiDataLogger.saveCSVFile">saveCSVFile()</a></p>
+</li>
+<li>
 <p><a href="#API:Function:CSK_MultiDataLogger.sendParameters">sendParameters()</a></p>
+</li>
+<li>
+<p><a href="#API:Function:CSK_MultiDataLogger.setCompressionValue">setCompressionValue()</a></p>
+</li>
+<li>
+<p><a href="#API:Function:CSK_MultiDataLogger.setCSVFilename">setCSVFilename()</a></p>
+</li>
+<li>
+<p><a href="#API:Function:CSK_MultiDataLogger.setCSVLabels">setCSVLabels()</a></p>
+</li>
+<li>
+<p><a href="#API:Function:CSK_MultiDataLogger.setDataMode">setDataMode()</a></p>
+</li>
+<li>
+<p><a href="#API:Function:CSK_MultiDataLogger.setDataType">setDataType()</a></p>
+</li>
+<li>
+<p><a href="#API:Function:CSK_MultiDataLogger.setImageType">setImageType()</a></p>
 </li>
 <li>
 <p><a href="#API:Function:CSK_MultiDataLogger.setLoadOnReboot">setLoadOnReboot()</a></p>
@@ -785,7 +829,16 @@ ToDo<br>
 <p><a href="#API:Function:CSK_MultiDataLogger.setParameterName">setParameterName()</a></p>
 </li>
 <li>
+<p><a href="#API:Function:CSK_MultiDataLogger.setPath">setPath()</a></p>
+</li>
+<li>
 <p><a href="#API:Function:CSK_MultiDataLogger.setRegisterEvent">setRegisterEvent()</a></p>
+</li>
+<li>
+<p><a href="#API:Function:CSK_MultiDataLogger.setSaveDataDirectly">setSaveDataDirectly()</a></p>
+</li>
+<li>
+<p><a href="#API:Function:CSK_MultiDataLogger.setSaveOnlyChanges">setSaveOnlyChanges()</a></p>
 </li>
 <li>
 <p><a href="#API:Function:CSK_MultiDataLogger.setSelectedInstance">setSelectedInstance()</a></p>
@@ -806,16 +859,43 @@ ToDo<br>
 <p><a href="#API:Event:CSK_MultiDataLogger.OnNewResult">OnNewResult</a></p>
 </li>
 <li>
-<p><a href="#API:Event:CSK_MultiDataLogger.OnNewResultNUM">OnNewResultNUM</a></p>
+<p><a href="#API:Event:CSK_MultiDataLogger.OnNewSelectedInstance">OnNewSelectedInstance</a></p>
 </li>
 <li>
-<p><a href="#API:Event:CSK_MultiDataLogger.OnNewSelectedInstance">OnNewSelectedInstance</a></p>
+<p><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusAvailableEvents">OnNewStatusAvailableEvents</a></p>
+</li>
+<li>
+<p><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusCSVFilename">OnNewStatusCSVFilename</a></p>
+</li>
+<li>
+<p><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusCSVLables">OnNewStatusCSVLables</a></p>
+</li>
+<li>
+<p><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusDataMode">OnNewStatusDataMode</a></p>
+</li>
+<li>
+<p><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusDataType">OnNewStatusDataType</a></p>
+</li>
+<li>
+<p><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusImageCompressionValue">OnNewStatusImageCompressionValue</a></p>
+</li>
+<li>
+<p><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusImageType">OnNewStatusImageType</a></p>
 </li>
 <li>
 <p><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusLoadParameterOnReboot">OnNewStatusLoadParameterOnReboot</a></p>
 </li>
 <li>
 <p><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusRegisteredEvent">OnNewStatusRegisteredEvent</a></p>
+</li>
+<li>
+<p><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusSaveDataDirectly">OnNewStatusSaveDataDirectly</a></p>
+</li>
+<li>
+<p><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusSaveOnlyChanges">OnNewStatusSaveOnlyChanges</a></p>
+</li>
+<li>
+<p><a href="#API:Event:CSK_MultiDataLogger.OnNewStatusStoragePath">OnNewStatusStoragePath</a></p>
 </li>
 <li>
 <p><a href="#API:Event:CSK_MultiDataLogger.OnNewValueToForwardNUM">OnNewValueToForwardNUM</a></p>
@@ -966,94 +1046,36 @@ ToDo<br>
 </div>
 </div>
 <div class="sect4">
-<h5 id="API:Function:CSK_MultiDataLogger.processInstanceNUM"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">processInstanceNUM()</span></h5>
-<div class="sect5">
-<h6 id="_short_description_7">Short description</h6>
-<div class="paragraph">
-<p>Example of dynamically served function to process internally coded function.<br>
-NUM will be replaced by the number of instance (e.g. "processInstance1").<br>
-INFO: Other modules can check via "Script.isServedAsFunction" if function of sepecific instance exists.<br>
-Needs then to be called via "Script.callFunction".</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_parameters">Parameters</h6>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 12.5%;">
-<col style="width: 37.5%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Multiplicity</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OBJECT<br>
-<a href="#API:Crown:Alias">Alias</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">?</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Transferred object (optional)</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect5">
-<h6 id="_return_values_3">Return values</h6>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 12.5%;">
-<col style="width: 37.5%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Multiplicity</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">result</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">?</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Processing result (optional).</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect5">
-<h6 id="_sample_auto_generated_5">Sample (auto-generated)</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua">result = CSK_MultiDataLogger.processInstanceNUM(object)</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
 <h5 id="API:Function:CSK_MultiDataLogger.resetInstances"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">resetInstances()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_8">Short description</h6>
+<h6 id="_short_description_7">Short description</h6>
 <div class="paragraph">
 <p>Function to reset instances to one single instance.<br>
 IMPORTANT: As instances start their own threads, the module needs to be restarted if new instances are needed&#8230;&#8203; (see AppEngine docu for "Script.startScript").</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_6">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_5">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiDataLogger.resetInstances()</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiDataLogger.saveCSVFile"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">saveCSVFile()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_8">Short description</h6>
+<div class="paragraph">
+<p>Function to manually save CSV file.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_6">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiDataLogger.saveCSVFile()</code></pre>
 </div>
 </div>
 </div>
@@ -1076,15 +1098,281 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
 </div>
 </div>
 <div class="sect4">
-<h5 id="API:Function:CSK_MultiDataLogger.setLoadOnReboot"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setLoadOnReboot()</span></h5>
+<h5 id="API:Function:CSK_MultiDataLogger.setCompressionValue"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setCompressionValue()</span></h5>
 <div class="sect5">
 <h6 id="_short_description_10">Short description</h6>
 <div class="paragraph">
-<p>Configure if this module should load its saved parameters at app/ device boot up.</p>
+<p>Function to set image compression value</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_parameters">Parameters</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">value</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">INT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Image compression value.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_8">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiDataLogger.setCompressionValue(value)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiDataLogger.setCSVFilename"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setCSVFilename()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_11">Short description</h6>
+<div class="paragraph">
+<p>Function to set CSV filename.</p>
 </div>
 </div>
 <div class="sect5">
 <h6 id="_parameters_2">Parameters</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Filename</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_9">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiDataLogger.setCSVFilename(name)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiDataLogger.setCSVLabels"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setCSVLabels()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_12">Short description</h6>
+<div class="paragraph">
+<p>Function to set CSV labels.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_parameters_3">Parameters</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">labels</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CSV labels seperated by comma.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_10">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiDataLogger.setCSVLabels(labels)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiDataLogger.setDataMode"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setDataMode()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_13">Short description</h6>
+<div class="paragraph">
+<p>Function to set data mode.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_parameters_4">Parameters</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ENUM<br>
+<a href="#API:Enum:CSK_MultiDataLogger.DataMode">CSK_MultiDataLogger.DataMode</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data mode.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_11">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiDataLogger.setDataMode(mode)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiDataLogger.setDataType"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setDataType()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_14">Short description</h6>
+<div class="paragraph">
+<p>Function to set data type.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_parameters_5">Parameters</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dataType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ENUM<br>
+<a href="#API:Invalid">null</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data type.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_12">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiDataLogger.setDataType(dataType)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiDataLogger.setImageType"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setImageType()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_15">Short description</h6>
+<div class="paragraph">
+<p>Function to set image type.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_parameters_6">Parameters</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">imgType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Image type</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_13">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiDataLogger.setImageType(imgType)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiDataLogger.setLoadOnReboot"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setLoadOnReboot()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_16">Short description</h6>
+<div class="paragraph">
+<p>Configure if this module should load its saved parameters at app / device boot up.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_parameters_7">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1111,7 +1399,7 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_8">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_14">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiDataLogger.setLoadOnReboot(status)</code></pre>
@@ -1122,13 +1410,13 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiDataLogger.setParameterName"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setParameterName()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_11">Short description</h6>
+<h6 id="_short_description_17">Short description</h6>
 <div class="paragraph">
 <p>Function to set the name of the parameters if saved/loaded via the CSK_PersistentData module.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_3">Parameters</h6>
+<h6 id="_parameters_8">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1155,7 +1443,7 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_9">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_15">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiDataLogger.setParameterName(name)</code></pre>
@@ -1164,16 +1452,60 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
 </div>
 </div>
 <div class="sect4">
+<h5 id="API:Function:CSK_MultiDataLogger.setPath"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setPath()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_18">Short description</h6>
+<div class="paragraph">
+<p>Function to set storage path.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_parameters_9">Parameters</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Storage path for incoming data.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_16">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiDataLogger.setPath(path)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
 <h5 id="API:Function:CSK_MultiDataLogger.setRegisterEvent"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setRegisterEvent()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_12">Short description</h6>
+<h6 id="_short_description_19">Short description</h6>
 <div class="paragraph">
 <p>Configure event that this module should listen to. If this one is notified, it will be linked to internal processing function.<br>
 (Will be set to currently active instance, see "setSelectedObject")</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_4">Parameters</h6>
+<h6 id="_parameters_10">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1200,7 +1532,7 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_10">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_17">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiDataLogger.setRegisterEvent(event)</code></pre>
@@ -1209,15 +1541,104 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
 </div>
 </div>
 <div class="sect4">
+<h5 id="API:Function:CSK_MultiDataLogger.setSaveDataDirectly"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setSaveDataDirectly()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_20">Short description</h6>
+<div class="paragraph">
+<p>Set if data should be saved persistently with every new received data.<br>
+If FALSE it is needed to call 'saveLog' manually to store log data.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_parameters_11">Parameters</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_18">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiDataLogger.setSaveDataDirectly(status)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiDataLogger.setSaveOnlyChanges"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setSaveOnlyChanges()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_21">Short description</h6>
+<div class="paragraph">
+<p>Set to TRUE if data should be logged only if value changed.<br></p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_parameters_12">Parameters</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_19">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiDataLogger.setSaveOnlyChanges(status)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
 <h5 id="API:Function:CSK_MultiDataLogger.setSelectedInstance"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-function">setSelectedInstance()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_13">Short description</h6>
+<h6 id="_short_description_22">Short description</h6>
 <div class="paragraph">
 <p>Select one of the multiple instances.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_5">Parameters</h6>
+<h6 id="_parameters_13">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1244,7 +1665,7 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_11">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_20">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiDataLogger.setSelectedInstance(instance)</code></pre>
@@ -1258,13 +1679,13 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiDataLogger.OnDataLoadedOnReboot"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnDataLoadedOnReboot</span></h5>
 <div class="sect5">
-<h6 id="_short_description_14">Short description</h6>
+<h6 id="_short_description_23">Short description</h6>
 <div class="paragraph">
 <p>Event to call if module tried to load parameters and should be ready.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_12">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_21">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnDataLoadedOnReboot</span>()
@@ -1279,7 +1700,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiDataLogger.OnNewInstanceList"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewInstanceList</span></h5>
 <div class="sect5">
-<h6 id="_short_description_15">Short description</h6>
+<h6 id="_short_description_24">Short description</h6>
 <div class="paragraph">
 <p>Event to provide list of created instances.</p>
 </div>
@@ -1312,7 +1733,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_13">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_22">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewInstanceList</span>(list)
@@ -1327,7 +1748,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiDataLogger.OnNewParameterName"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewParameterName</span></h5>
 <div class="sect5">
-<h6 id="_short_description_16">Short description</h6>
+<h6 id="_short_description_25">Short description</h6>
 <div class="paragraph">
 <p>Notify name of persistent data parameter.</p>
 </div>
@@ -1360,7 +1781,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_14">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_23">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewParameterName</span>(name)
@@ -1375,7 +1796,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiDataLogger.OnNewProcessingParameter"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewProcessingParameter</span></h5>
 <div class="sect5">
-<h6 id="_short_description_17">Short description</h6>
+<h6 id="_short_description_26">Short description</h6>
 <div class="paragraph">
 <p>Event to share processing parameters to the instances.</p>
 </div>
@@ -1402,7 +1823,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <td class="tableblock halign-left valign-top"><p class="tableblock">objectNo</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">INT</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of the instance to receive the parameter.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Numeric identifier of the instance to receive the parameter.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">parameter</p></td>
@@ -1420,13 +1841,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <td class="tableblock halign-left valign-top"><p class="tableblock">internalObjectNo</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">INT</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">?</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If parameter is for specifici internal used object, its number.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Numeric identifier, if parameter is for specific internal used object.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_15">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_24">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewProcessingParameter</span>(objectNo, parameter, value, internalObjectNo)
@@ -1441,7 +1862,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiDataLogger.OnNewResult"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewResult</span></h5>
 <div class="sect5">
-<h6 id="_short_description_18">Short description</h6>
+<h6 id="_short_description_27">Short description</h6>
 <div class="paragraph">
 <p>Generic event to notify results. E.g. to forward results from single instances.</p>
 </div>
@@ -1474,7 +1895,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_16">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_25">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewResult</span>(result)
@@ -1487,65 +1908,15 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </div>
 </div>
 <div class="sect4">
-<h5 id="API:Event:CSK_MultiDataLogger.OnNewResultNUM"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewResultNUM</span></h5>
-<div class="sect5">
-<h6 id="_short_description_19">Short description</h6>
-<div class="paragraph">
-<p>Example of dynamically created event to provide result of instance.<br>
-NUM will be replaced by the number of instance (e.g. "OnNewResult1").<br>
-INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific instance exists.</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_callback_arguments_5">Callback arguments</h6>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 12.5%;">
-<col style="width: 37.5%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Multiplicity</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">result</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Result</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect5">
-<h6 id="_sample_auto_generated_17">Sample (auto-generated)</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewResultNUM</span>(result)
-  <span class="comment">-- Do something</span>
-<span class="keyword">end</span>
-
-Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiDataLogger.OnNewResultNUM</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnNewResultNUM</span><span class="delimiter">&quot;</span></span>)</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
 <h5 id="API:Event:CSK_MultiDataLogger.OnNewSelectedInstance"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewSelectedInstance</span></h5>
 <div class="sect5">
-<h6 id="_short_description_20">Short description</h6>
+<h6 id="_short_description_28">Short description</h6>
 <div class="paragraph">
 <p>Notify if new instance is selected.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_6">Callback arguments</h6>
+<h6 id="_callback_arguments_5">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1572,7 +1943,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_18">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_26">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewSelectedInstance</span>(selectedObject)
@@ -1585,15 +1956,351 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </div>
 </div>
 <div class="sect4">
+<h5 id="API:Event:CSK_MultiDataLogger.OnNewStatusAvailableEvents"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusAvailableEvents</span></h5>
+<div class="sect5">
+<h6 id="_short_description_29">Short description</h6>
+<div class="paragraph">
+<p>Notify available events.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_6">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">listOfEvents</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JSON list</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_27">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewStatusAvailableEvents</span>(listOfEvents)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiDataLogger.OnNewStatusAvailableEvents</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnNewStatusAvailableEvents</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Event:CSK_MultiDataLogger.OnNewStatusCSVFilename"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusCSVFilename</span></h5>
+<div class="sect5">
+<h6 id="_short_description_30">Short description</h6>
+<div class="paragraph">
+<p>Notify name of CSV file to store data.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_7">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of file.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_28">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewStatusCSVFilename</span>(name)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiDataLogger.OnNewStatusCSVFilename</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnNewStatusCSVFilename</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Event:CSK_MultiDataLogger.OnNewStatusCSVLables"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusCSVLables</span></h5>
+<div class="sect5">
+<h6 id="_short_description_31">Short description</h6>
+<div class="paragraph">
+<p>Notify CSV labels.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_8">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">labels</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CSV labels.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_29">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewStatusCSVLables</span>(labels)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiDataLogger.OnNewStatusCSVLables</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnNewStatusCSVLables</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Event:CSK_MultiDataLogger.OnNewStatusDataMode"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusDataMode</span></h5>
+<div class="sect5">
+<h6 id="_short_description_32">Short description</h6>
+<div class="paragraph">
+<p>Notify mode of data storage</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_9">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data mode.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_30">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewStatusDataMode</span>(mode)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiDataLogger.OnNewStatusDataMode</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnNewStatusDataMode</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Event:CSK_MultiDataLogger.OnNewStatusDataType"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusDataType</span></h5>
+<div class="sect5">
+<h6 id="_short_description_33">Short description</h6>
+<div class="paragraph">
+<p>Notfiy data type.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_10">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data type</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_31">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewStatusDataType</span>(<span class="predefined">type</span>)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiDataLogger.OnNewStatusDataType</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnNewStatusDataType</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Event:CSK_MultiDataLogger.OnNewStatusImageCompressionValue"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusImageCompressionValue</span></h5>
+<div class="sect5">
+<h6 id="_short_description_34">Short description</h6>
+<div class="paragraph">
+<p>Notify value of image compression.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_11">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">imgCompression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">INT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Image compression value.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_32">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewStatusImageCompressionValue</span>(imgCompression)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiDataLogger.OnNewStatusImageCompressionValue</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnNewStatusImageCompressionValue</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Event:CSK_MultiDataLogger.OnNewStatusImageType"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusImageType</span></h5>
+<div class="sect5">
+<h6 id="_short_description_35">Short description</h6>
+<div class="paragraph">
+<p>Notify image type.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_12">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">imageType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type of image</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_33">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewStatusImageType</span>(imageType)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiDataLogger.OnNewStatusImageType</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnNewStatusImageType</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
 <h5 id="API:Event:CSK_MultiDataLogger.OnNewStatusLoadParameterOnReboot"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusLoadParameterOnReboot</span></h5>
 <div class="sect5">
-<h6 id="_short_description_21">Short description</h6>
+<h6 id="_short_description_36">Short description</h6>
 <div class="paragraph">
 <p>Notify status if parameters should be loaded on app/device boot up.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_7">Callback arguments</h6>
+<h6 id="_callback_arguments_13">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1620,7 +2327,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_19">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_34">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewStatusLoadParameterOnReboot</span>(status)
@@ -1635,13 +2342,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiDataLogger.OnNewStatusRegisteredEvent"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusRegisteredEvent</span></h5>
 <div class="sect5">
-<h6 id="_short_description_22">Short description</h6>
+<h6 id="_short_description_37">Short description</h6>
 <div class="paragraph">
 <p>Notify event instance is registered to receive data to process.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_8">Callback arguments</h6>
+<h6 id="_callback_arguments_14">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1668,7 +2375,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_20">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_35">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewStatusRegisteredEvent</span>(eventname)
@@ -1681,16 +2388,160 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </div>
 </div>
 <div class="sect4">
+<h5 id="API:Event:CSK_MultiDataLogger.OnNewStatusSaveDataDirectly"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusSaveDataDirectly</span></h5>
+<div class="sect5">
+<h6 id="_short_description_38">Short description</h6>
+<div class="paragraph">
+<p>Notify status if log file should be saved automatically as soon as it receives a new data entry.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_15">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_36">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewStatusSaveDataDirectly</span>(status)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiDataLogger.OnNewStatusSaveDataDirectly</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnNewStatusSaveDataDirectly</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Event:CSK_MultiDataLogger.OnNewStatusSaveOnlyChanges"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusSaveOnlyChanges</span></h5>
+<div class="sect5">
+<h6 id="_short_description_39">Short description</h6>
+<div class="paragraph">
+<p>Notify status if log file should log received data only if it differs from previous data.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_16">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_37">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewStatusSaveOnlyChanges</span>(status)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiDataLogger.OnNewStatusSaveOnlyChanges</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnNewStatusSaveOnlyChanges</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Event:CSK_MultiDataLogger.OnNewStatusStoragePath"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewStatusStoragePath</span></h5>
+<div class="sect5">
+<h6 id="_short_description_40">Short description</h6>
+<div class="paragraph">
+<p>Notify path to store incoming data</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_17">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Storage path.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_38">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewStatusStoragePath</span>(path)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiDataLogger.OnNewStatusStoragePath</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnNewStatusStoragePath</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
 <h5 id="API:Event:CSK_MultiDataLogger.OnNewValueToForwardNUM"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewValueToForwardNUM</span></h5>
 <div class="sect5">
-<h6 id="_short_description_23">Short description</h6>
+<h6 id="_short_description_41">Short description</h6>
 <div class="paragraph">
 <p>Example of dynamically created event to forward data from instance thread to Controller part of module, e.g. to forward values to UI.<br>
-NUM will be replaced by the number of instance (e.g. "OnNewResult1").<br></p>
+NUM will be replaced by the number of instance (e.g. "OnNewValueToForward1").<br></p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_9">Callback arguments</h6>
+<h6 id="_callback_arguments_18">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1723,7 +2574,7 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1").<br></p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_21">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_39">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewValueToForwardNUM</span>(eventname, value)
@@ -1738,14 +2589,14 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiDataLogger.OnNewValueUpdateNUM"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnNewValueUpdateNUM</span></h5>
 <div class="sect5">
-<h6 id="_short_description_24">Short description</h6>
+<h6 id="_short_description_42">Short description</h6>
 <div class="paragraph">
-<p>Example of dynamically created event to sync paramters between instance threads and Controller part of module.<br>
-NUM will be replaced by the number of instance (e.g. "OnNewResult1").<br></p>
+<p>Example of dynamically created event to sync parameters between instance threads and Controller part of module.<br>
+NUM will be replaced by the number of instance (e.g. "OnNewValueUpdate1").<br></p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_10">Callback arguments</h6>
+<h6 id="_callback_arguments_19">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1772,7 +2623,7 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1").<br></p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">parameter</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the paramter to update/sync.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the parameter to update/sync.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">value</p></td>
@@ -1790,7 +2641,7 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1").<br></p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_22">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_40">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewValueUpdateNUM</span>(instance, parameter, value, selectedObject)
@@ -1805,13 +2656,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiDataLogger.OnPersistentDataModuleAvailable"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnPersistentDataModuleAvailable</span></h5>
 <div class="sect5">
-<h6 id="_short_description_25">Short description</h6>
+<h6 id="_short_description_43">Short description</h6>
 <div class="paragraph">
 <p>Notify status if features of CSK_PersistentData module are available.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_11">Callback arguments</h6>
+<h6 id="_callback_arguments_20">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1838,7 +2689,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_23">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_41">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnPersistentDataModuleAvailable</span>(status)
@@ -1853,13 +2704,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiDataLogger.OnUserLevelAdminActive"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnUserLevelAdminActive</span></h5>
 <div class="sect5">
-<h6 id="_short_description_26">Short description</h6>
+<h6 id="_short_description_44">Short description</h6>
 <div class="paragraph">
 <p>Status of Admin userlevel. Used internally in combination with the CSK_UserManagement module if available.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_12">Callback arguments</h6>
+<h6 id="_callback_arguments_21">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1886,7 +2737,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_24">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_42">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnUserLevelAdminActive</span>(status)
@@ -1901,13 +2752,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiDataLogger.OnUserLevelMaintenanceActive"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnUserLevelMaintenanceActive</span></h5>
 <div class="sect5">
-<h6 id="_short_description_27">Short description</h6>
+<h6 id="_short_description_45">Short description</h6>
 <div class="paragraph">
 <p>Status of Maintenance userlevel. Used internally in combination with the CSK_UserManagement module if available.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_13">Callback arguments</h6>
+<h6 id="_callback_arguments_22">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1934,7 +2785,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_25">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_43">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnUserLevelMaintenanceActive</span>(status)
@@ -1949,13 +2800,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiDataLogger.OnUserLevelOperatorActive"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnUserLevelOperatorActive</span></h5>
 <div class="sect5">
-<h6 id="_short_description_28">Short description</h6>
+<h6 id="_short_description_46">Short description</h6>
 <div class="paragraph">
 <p>Status of Operator userlevel. Used internally in combination with the CSK_UserManagement module if available.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_14">Callback arguments</h6>
+<h6 id="_callback_arguments_23">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1982,7 +2833,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_26">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_44">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnUserLevelOperatorActive</span>(status)
@@ -1997,13 +2848,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiDataLogger.OnUserLevelServiceActive"><span class="breadcrumb">CSK_MultiDataLogger.</span><span class="api-event">OnUserLevelServiceActive</span></h5>
 <div class="sect5">
-<h6 id="_short_description_29">Short description</h6>
+<h6 id="_short_description_47">Short description</h6>
 <div class="paragraph">
 <p>Status of Service userlevel. Used internally in combination with the CSK_UserManagement module if available.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_15">Callback arguments</h6>
+<h6 id="_callback_arguments_24">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2030,7 +2881,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_27">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_45">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnUserLevelServiceActive</span>(status)
@@ -2046,11 +2897,150 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_enumerations">Enumerations</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">C</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#API:Enum:CSK_MultiDataLogger.DataMode">CSK_MultiDataLogger.DataMode</a></p>
+</li>
+<li>
+<p><a href="#API:Enum:CSK_MultiDataLogger.DataType">CSK_MultiDataLogger.DataType</a></p>
+</li>
+<li>
+<p><a href="#API:Enum:CSK_MultiDataLogger.ImageFormat">CSK_MultiDataLogger.ImageFormat</a></p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+<div class="sect2">
+<h3 id="API:Enum:CSK_MultiDataLogger.DataMode"><span class="api-enum">CSK_MultiDataLogger.DataMode</span></h3>
+<div class="paragraph">
+<p>Mode of data to store.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Items</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>file</pre></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">file</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Store files</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>image</pre></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">image</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Store images</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="API:Enum:CSK_MultiDataLogger.DataType"><span class="api-enum">CSK_MultiDataLogger.DataType</span></h3>
+<div class="paragraph">
+<p>Data type</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Items</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>json</pre></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">json</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JSON</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>csv</pre></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">csv</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CSV</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="API:Enum:CSK_MultiDataLogger.ImageFormat"><span class="api-enum">CSK_MultiDataLogger.ImageFormat</span></h3>
+<div class="paragraph">
+<p>Image format</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Items</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>bmp</pre></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bmp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BMP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>png</pre></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">png</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PNG</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>jpg</pre></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">jpg</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JPEG</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>json</pre></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">json</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JSON</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>msgpack</pre></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">msgpack</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MSGPACK</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.1.0<br>
-Last updated 2023-12-13 15:35:34 +0100
+Version 1.0.0<br>
+Last updated 2024-03-27 09:27:28 +0100
 </div>
 </div>
 <script type="text/javascript">

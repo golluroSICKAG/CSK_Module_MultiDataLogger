@@ -6,16 +6,34 @@
         </crown>
         <crown name="CSK_MultiDataLogger">
             <trait>released</trait>
-            <desc>Please fill in information regarding: What is the idea of this module and its features? +
-How to use this module in general.... like: +
-{empty} + 
-Typically the features of this module are used like this (check also main script of this module): +
-{empty} + 
+            <desc>Module to store / log data like files or images. +
+{empty} +
+Typically, the feature of this module is used like this (check also main script of this module): +
+{empty} +
 **1) Setup** +
-ToDo +
-{empty} + 
-**2) Something else....** +
-</desc>
+- Set instance to configure via 'setSelectedInstance' +
+- Set data mode and storage path via 'setDataMode' and 'setPath'. +
+- Set type of data or image via 'setDataType' or 'setImageType'. +
+- If it should store data in a CSV-formatted file, you should set the CSV filename via 'setCSVFilename', the CSV labels via 'setCSVLabels'. Additionally, choose mode for 'setSaveOnlyChanges' and 'setSaveDataDirectly'. +
+- Set an event to receive the data / image to store via 'setRegisterEvent'. This event should provide as first parameter the data to store and as second parameter an optional filename (2nd parameter not needed, if data type is 'csv'). Otherwise, it will use the timestamp as filename. +</desc>
+            <enum name="DataMode" trait="released">
+                <desc>Mode of data to store.</desc>
+                <item desc="Store files" name="file">file</item>
+                <item desc="Store images" name="image">image</item>
+            </enum>
+            <enum name="DataType" trait="released">
+                <desc>Data type</desc>
+                <item desc="JSON" name="json">json</item>
+                <item desc="CSV" name="csv">csv</item>
+            </enum>
+            <enum name="ImageFormat" trait="released">
+                <desc>Image format</desc>
+                <item desc="BMP" name="bmp">bmp</item>
+                <item desc="PNG" name="png">png</item>
+                <item desc="JPEG" name="jpg">jpg</item>
+                <item desc="JSON" name="json">json</item>
+                <item desc="MSGPACK" name="msgpack">msgpack</item>
+            </enum>
             <serves>
                 <event name="OnNewStatusLoadParameterOnReboot">
                     <desc>Notify status if parameters should be loaded on app/device boot up.</desc>
@@ -31,10 +49,10 @@ ToDo +
                 </event>
                 <event name="OnNewProcessingParameter">
                     <desc>Event to share processing parameters to the instances.</desc>
-                    <param desc="Number of the instance to receive the parameter." multiplicity="1" name="objectNo" type="int"/>
+                    <param desc="Numeric identifier of the instance to receive the parameter." multiplicity="1" name="objectNo" type="int"/>
                     <param desc="Name of the parameter." multiplicity="1" name="parameter" type="string"/>
                     <param desc="Value of the parameter." multiplicity="1" name="value" type="auto"/>
-                    <param desc="If parameter is for specifici internal used object, its number." multiplicity="?" name="internalObjectNo" type="int"/>
+                    <param desc="Numeric identifier, if parameter is for specific internal used object." multiplicity="?" name="internalObjectNo" type="int"/>
                 </event>
                 <event name="OnNewSelectedInstance">
                     <desc>Notify if new instance is selected.</desc>
@@ -42,12 +60,6 @@ ToDo +
                 </event>
                 <event name="OnDataLoadedOnReboot">
                     <desc>Event to call if module tried to load parameters and should be ready.</desc>
-                </event>
-                <event name="OnNewResultNUM">
-                    <desc>Example of dynamically created event to provide result of instance. +
-NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +
-INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific instance exists.</desc>
-                    <param desc="Result" multiplicity="1" name="result" type="bool"/>
                 </event>
                 <event name="OnNewParameterName">
                     <desc>Notify name of persistent data parameter.</desc>
@@ -70,16 +82,16 @@ INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific
                     <param desc="Status" multiplicity="1" name="status" type="bool"/>
                 </event>
                 <event name="OnNewValueUpdateNUM">
-                    <desc>Example of dynamically created event to sync paramters between instance threads and Controller part of module. +
-NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
+                    <desc>Example of dynamically created event to sync parameters between instance threads and Controller part of module. +
+NUM will be replaced by the number of instance (e.g. "OnNewValueUpdate1"). +</desc>
                     <param desc="Instance new value is coming from." multiplicity="1" name="instance" type="int"/>
-                    <param desc="Name of the paramter to update/sync." multiplicity="1" name="parameter" type="string"/>
+                    <param desc="Name of the parameter to update/sync." multiplicity="1" name="parameter" type="string"/>
                     <param desc="Value to update." multiplicity="1" name="value" type="auto"/>
                     <param desc="Optionally if internal parameter should be used for internal objects." multiplicity="?" name="selectedObject" type="int"/>
                 </event>
                 <event name="OnNewValueToForwardNUM">
                     <desc>Example of dynamically created event to forward data from instance thread to Controller part of module, e.g. to forward values to UI. +
-NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
+NUM will be replaced by the number of instance (e.g. "OnNewValueToForward1"). +</desc>
                     <param desc="Eventname to use to forward value." multiplicity="1" name="eventname" type="string"/>
                     <param desc="Value to forward." multiplicity="1" name="value" type="auto"/>
                 </event>
@@ -90,6 +102,46 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                 <event name="OnNewStatusRegisteredEvent">
                     <desc>Notify event instance is registered to receive data to process.</desc>
                     <param desc="Name of event." multiplicity="1" name="eventname" type="string"/>
+                </event>
+                <event name="OnNewStatusStoragePath">
+                    <desc>Notify path to store incoming data</desc>
+                    <param desc="Storage path." multiplicity="1" name="path" type="string"/>
+                </event>
+                <event name="OnNewStatusDataMode">
+                    <desc>Notify mode of data storage</desc>
+                    <param desc="Data mode." multiplicity="1" name="mode" type="string"/>
+                </event>
+                <event name="OnNewStatusDataType">
+                    <desc>Notfiy data type.</desc>
+                    <param desc="Data type" multiplicity="1" name="type" type="string"/>
+                </event>
+                <event name="OnNewStatusImageType">
+                    <desc>Notify image type.</desc>
+                    <param desc="Type of image" multiplicity="1" name="imageType" type="string"/>
+                </event>
+                <event name="OnNewStatusImageCompressionValue">
+                    <desc>Notify value of image compression.</desc>
+                    <param desc="Image compression value." multiplicity="1" name="imgCompression" type="int"/>
+                </event>
+                <event name="OnNewStatusCSVLables">
+                    <desc>Notify CSV labels.</desc>
+                    <param desc="CSV labels." multiplicity="1" name="labels" type="string"/>
+                </event>
+                <event name="OnNewStatusSaveOnlyChanges">
+                    <desc>Notify status if log file should log received data only if it differs from previous data.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnNewStatusSaveDataDirectly">
+                    <desc>Notify status if log file should be saved automatically as soon as it receives a new data entry.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnNewStatusCSVFilename">
+                    <desc>Notify name of CSV file to store data.</desc>
+                    <param desc="Name of file." multiplicity="1" name="name" type="string"/>
+                </event>
+                <event name="OnNewStatusAvailableEvents">
+                    <desc>Notify available events.</desc>
+                    <param desc="JSON list" multiplicity="1" name="listOfEvents" type="string"/>
                 </event>
                 <function name="setParameterName">
                     <desc>Function to set the name of the parameters if saved/loaded via the CSK_PersistentData module.</desc>
@@ -102,7 +154,7 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                     <desc>Load parameters for this module from the CSK_PersistentData module if possible and use them.</desc>
                 </function>
                 <function name="setLoadOnReboot">
-                    <desc>Configure if this module should load its saved parameters at app/ device boot up.</desc>
+                    <desc>Configure if this module should load its saved parameters at app / device boot up.</desc>
                     <param desc="Set status" multiplicity="1" name="status" type="bool"/>
                 </function>
                 <function name="pageCalled">
@@ -122,14 +174,6 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
 (Will be set to currently active instance, see "setSelectedObject")</desc>
                     <param desc="(external) Event name to listen to." multiplicity="1" name="event" type="string"/>
                 </function>
-                <function name="processInstanceNUM">
-                    <desc>Example of dynamically served function to process internally coded function. +
-NUM will be replaced by the number of instance (e.g. "processInstance1"). +
-INFO: Other modules can check via "Script.isServedAsFunction" if function of sepecific instance exists. +
-Needs then to be called via "Script.callFunction".</desc>
-                    <param alias="Alias" desc="Transferred object (optional)" multiplicity="?" name="object" type="object"/>
-                    <return desc="Processing result (optional)." multiplicity="?" name="result" type="bool"/>
-                </function>
                 <function name="addInstance">
                     <desc>Function to add an additional instance.</desc>
                 </function>
@@ -137,15 +181,55 @@ Needs then to be called via "Script.callFunction".</desc>
                     <desc>Function to reset instances to one single instance. +
 IMPORTANT: As instances start their own threads, the module needs to be restarted if new instances are needed... (see AppEngine docu for "Script.startScript").</desc>
                 </function>
+                <function name="setPath">
+                    <desc>Function to set storage path.</desc>
+                    <param desc="Storage path for incoming data." multiplicity="1" name="path" type="string"/>
+                </function>
+                <function name="setDataMode">
+                    <desc>Function to set data mode.</desc>
+                    <param desc="Data mode." multiplicity="1" name="mode" ref="CSK_MultiDataLogger.DataMode" type="enum"/>
+                </function>
+                <function name="setDataType">
+                    <desc>Function to set data type.</desc>
+                    <param desc="Data type." multiplicity="1" name="dataType" type="enum"/>
+                </function>
+                <function name="setImageType">
+                    <desc>Function to set image type.</desc>
+                    <param desc="Image type" multiplicity="1" name="imgType" type="string"/>
+                </function>
+                <function name="setCompressionValue">
+                    <desc>Function to set image compression value</desc>
+                    <param desc="Image compression value." multiplicity="1" name="value" type="int"/>
+                </function>
+                <function name="setCSVLabels">
+                    <desc>Function to set CSV labels.</desc>
+                    <param desc="CSV labels seperated by comma." multiplicity="1" name="labels" type="string"/>
+                </function>
+                <function name="setSaveOnlyChanges">
+                    <desc>Set to TRUE if data should be logged only if value changed. +</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </function>
+                <function name="setSaveDataDirectly">
+                    <desc>Set if data should be saved persistently with every new received data. +
+If FALSE it is needed to call 'saveLog' manually to store log data.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </function>
+                <function name="setCSVFilename">
+                    <desc>Function to set CSV filename.</desc>
+                    <param desc="Filename" multiplicity="1" name="name" type="string"/>
+                </function>
+                <function name="saveCSVFile">
+                    <desc>Function to manually save CSV file.</desc>
+                </function>
             </serves>
         </crown>
         <meta key="author">SICK AG</meta>
-        <meta key="version">0.1.0</meta>
+        <meta key="version">1.0.0</meta>
         <meta key="priority">low</meta>
         <meta key="copy-protected">false</meta>
         <meta key="read-protected">false</meta>
         <meta key="crown2-flow-engine">false</meta>
-        <meta key="LuaLoadAllEngineAPI">true</meta>
+        <meta key="LuaLoadAllEngineAPI">false</meta>
         <entry default="CSK_Module_MultiDataLogger.lua" path="scripts"/>
     </application>
 </manifest>

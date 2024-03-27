@@ -31,7 +31,7 @@
 -- If app property "LuaLoadAllEngineAPI" is FALSE, use this to load and check for required APIs
 -- This can improve performance of garbage collection
 
--- _G.availableAPIs = require('Data/MultiDataLogger/helper/checkAPIs') -- can be used to adjust function scope of the module related on available APIs of the device
+_G.availableAPIs = require('Data/MultiDataLogger/helper/checkAPIs') -- can be used to adjust function scope of the module related on available APIs of the device
 -----------------------------------------------------------
 -- Logger
 _G.logger = Log.SharedLogger.create('ModuleLogger')
@@ -60,31 +60,6 @@ multiDataLoggerController.setMultiDataLogger_Instances_Handle(multiDataLogger_In
 --**********************Start Function Scope *******************************
 --**************************************************************************
 
---[[
---- Function to show how this module could be used
-local function startProcessing()
-
-  CSK_MultiDataLogger.setSelectedInstance(1) --> select instance of module
-  CSK_MultiDataLogger.doSomething() --> preparation
-
-  -- Option A --> prepare an event to trigger processing via this one
-  --Script.serveEvent("CSK_MultiDataLogger.OnNewTestEvent", "MultiDataLogger_OnNewTestEvent") --> Create event to listen to and process forwarded object
-  --CSK_MultiDataLogger.setRegisterEvent('CSK_MultiDataLogger.OnNewTestEvent') --> Register processing to the event
-
-  --Script.notifyEvent('OnNewTestEvent', data)
-
-    -- Option B --> trigger processing via function call
-    local result = CSK_MultiDataLogger.processSomething(data)
-
-  end
-end
-
--- Call processing function after persistent data was loaded
---Script.register("CSK_MultiDataLogger.OnDataLoadedOnReboot", startProcessing)
-]]
-
---OR
-
 --- Function to react on startup event of the app
 local function main()
 
@@ -97,9 +72,37 @@ local function main()
   --       If so, the app will trigger the "OnDataLoadedOnReboot" event if ready after loading parameters
   --
   -- Can be used e.g. like this
+
+  --[[
+  -- File
+  CSK_MultiDataLogger.setSelectedInstance(1)
+  CSK_MultiDataLogger.setPath('/public/MetaData/')
+  CSK_MultiDataLogger.setDataMode('file')
+  CSK_MultiDataLogger.setDataType('json')
+  CSK_MultiDataLogger.setRegisterEvent('CSK_OtherModule.OnNewLogData')
+
+  -- Image
+  CSK_MultiDataLogger.addInstance()
+  CSK_MultiDataLogger.setSelectedInstance(2)
+  CSK_MultiDataLogger.setPath('/public/ImageData/')
+  CSK_MultiDataLogger.setDataMode('image')
+  CSK_MultiDataLogger.setImageType('bmp')
+  CSK_MultiDataLogger.setRegisterEvent('CSK_OtherModule.OnNewImage')
+
+  -- CSV data
+  CSK_MultiDataLogger.addInstance()
+  CSK_MultiDataLogger.setSelectedInstance(3)
+  CSK_MultiDataLogger.setPath('/public/Data/')
+  CSK_MultiDataLogger.setDataMode('file')
+  CSK_MultiDataLogger.setImageType('csv')
+  CSK_MultiDataLogger.setCSVFilename('csvDataFile')
+  CSK_MultiDataLogger.setCSVLabels('DateTime, ValueA, ValueB')
+  CSK_MultiDataLogger.setSaveOnlyChanges(true)
+  CSK_MultiDataLogger.setSaveDataDirectly(false)
+  CSK_MultiDataLogger.setRegisterEvent('CSK_OtherModule.OnNewImage')
+  ]]
   ----------------------------------------------------------------------------------------
 
-  --startProcessing() --> see above
   CSK_MultiDataLogger.pageCalled() -- Update UI
 
 end

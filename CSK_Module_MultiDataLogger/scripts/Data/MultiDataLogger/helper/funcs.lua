@@ -142,6 +142,74 @@ local function createStringListBySimpleTable(content)
 end
 funcs.createStringListBySimpleTable = createStringListBySimpleTable
 
+---@param pos int Position to start to search for a slash
+---@param path string Full file path to search for subfolders
+local function createRecursiveFolder(pos, path)
+  local foundPos = string.find(path, '/', pos)
+  if foundPos then
+    local found2ndPos = string.find(path, '/', foundPos+1)
+    if found2ndPos and found2ndPos ~= #path then
+      local folderToCheck = string.sub(path, 1, found2ndPos)
+      local folderExists = File.isdir(folderToCheck)
+      if not folderExists then
+        local suc = File.mkdir(folderToCheck)
+      end
+      return createRecursiveFolder(foundPos+1, path)
+    else
+      local folderExists = File.isdir(path)
+      if folderExists then
+        --_G.logger:info(nameOfModule .. ': Folder: "' .. path .. '" already exists.')
+      else
+        local suc = File.mkdir(path)
+        return
+      end
+    end
+  else
+    return
+  end
+end
+funcs.createRecursiveFolder = createRecursiveFolder
+
+local function createFolder(path)
+  if string.sub(path, 1, 1) == '/' then
+    createRecursiveFolder(1, path)
+  else
+    createRecursiveFolder(1, '/' .. path)
+  end
+end
+funcs.createFolder = createFolder
+
+local function getAvailableEvents()
+  local listOfEvents = {}
+
+  local appNames = Engine.listApps()
+
+  for key, value in pairs(appNames) do
+    local startPos = string.find(value, '_', 5)
+    if startPos then
+      local crownName = 'CSK' .. string.sub(value, startPos, #value)
+      local content = Engine.getCrownAsXML(crownName)
+      local lastSearchPos = 0
+
+      while true do
+        local _, eventStart = string.find(content, 'event name="', lastSearchPos)
+        if eventStart then
+          lastSearchPos = eventStart+1
+          local endPos = string.find(content, '"', eventStart+1)
+          if endPos then
+            local eventName = crownName .. '.' .. string.sub(content, eventStart+1, endPos-1)
+            table.insert(listOfEvents, eventName)
+          end
+        else
+          break
+        end
+      end
+    end
+  end
+  return listOfEvents
+end
+funcs.getAvailableEvents = getAvailableEvents
+
 return funcs
 
 --**************************************************************************
