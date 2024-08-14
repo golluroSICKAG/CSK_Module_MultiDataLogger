@@ -47,12 +47,19 @@ _G.logHandle:applyConfig()
 local multiDataLogger_Model = require('Data/MultiDataLogger/MultiDataLogger_Model')
 
 local multiDataLogger_Instances = {} -- Handle all instances
-table.insert(multiDataLogger_Instances, multiDataLogger_Model.create(1)) -- Create at least 1 instance
 
 -- Load script to communicate with the MultiDataLogger_Model UI
 -- Check / edit this script to see/edit functions which communicate with the UI
 local multiDataLoggerController = require('Data/MultiDataLogger/MultiDataLogger_Controller')
-multiDataLoggerController.setMultiDataLogger_Instances_Handle(multiDataLogger_Instances) -- share handle of instances
+
+if _G.availableAPIs.default then
+  local setInstanceHandle = require('Data/MultiDataLogger/FlowConfig/MultiDataLogger_FlowConfig')
+  table.insert(multiDataLogger_Instances, multiDataLogger_Model.create(1))
+  multiDataLoggerController.setMultiDataLogger_Instances_Handle(multiDataLogger_Instances) -- share handle of instances
+  setInstanceHandle(multiDataLogger_Instances)
+else
+  _G.logger:warning("CSK_MultiDataLogger: Relevant CROWN(s) not available on device. Module is not supported...")
+end
 
 --**************************************************************************
 --**********************End Global Scope ***********************************
@@ -102,7 +109,9 @@ local function main()
   CSK_MultiDataLogger.setRegisterEvent('CSK_OtherModule.OnNewImage')
   ]]
   ----------------------------------------------------------------------------------------
-
+  if _G.availableAPIs.default then
+    CSK_MultiDataLogger.setSelectedInstance(1)
+  end
   CSK_MultiDataLogger.pageCalled() -- Update UI
 
 end

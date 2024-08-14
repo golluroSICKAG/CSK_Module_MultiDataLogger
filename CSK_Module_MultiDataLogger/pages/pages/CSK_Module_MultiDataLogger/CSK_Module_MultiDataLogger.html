@@ -1,446 +1,598 @@
-<layout-row id="RowLayout1">
-	<layout-column id="ColumnLayout2" style="align-items: stretch">
-		<davinci-value-display id="VD_Title" label="Data Logger">
-		</davinci-value-display>
-		<stacked-view id="SV_UserRole">
-			<stacked-pane id="SP_LoginOK" value="true">
-				<layout-row id="RowLayout5">
-					<layout-column id="ColumnLayout7" style="align-items: stretch">
-						<davinci-tabs id="Tabs_Setup" type="modern">
-							<davinci-tab id="Tab_Settings" label="Setup">
-								<layout-row id="RowLayout8">
-									<layout-column id="ColumnLayout9" style="align-items: stretch">
-										<layout-row id="RowLayout11"
-											style="justify-content: space-between; align-items: center">
-											<layout-column id="ColumnLayout33" style="align-items: stretch">
-												<davinci-value-display id="VD_SelectInstance"
-													value="Selected Instance">
-												</davinci-value-display>
-											</layout-column>
-											<layout-column id="ColumnLayout22" style="align-items: stretch">
-												<davinci-drop-down id="DD_SelectInstance">
-    												<crown-binding event="change"
-	    												name="CSK_MultiDataLogger/setSelectedInstance"
-		    											path="param/args/instance" auto-commit
-			    										converter="function(value) {return Number(value);}">
-				    								</crown-binding>
-					    							<crown-edpws-binding property="value"
-						    							name="CSK_MultiDataLogger/OnNewSelectedInstance" update-on-resume
-							    						converter="function(value) {return value.toString();}">
-								    				</crown-edpws-binding>
-									    			<crown-edpws-binding property="data"
-										    			name="CSK_MultiDataLogger/OnNewInstanceList" update-on-resume
-											    		converter="convertToList">
-												    </crown-edpws-binding>
-												</davinci-drop-down>
-											</layout-column>
-										</layout-row>
-										<layout-row id="RowLayout12"
-											style="align-items: center; justify-content: space-between">
-											<layout-column id="ColumnLayout12" style="align-items: stretch">
-												<davinci-value-display id="VD_Path" value="Path:">
-												</davinci-value-display>
-											</layout-column>
-											<layout-column id="ColumnLayout13" style="align-items: stretch">
-												<davinci-text-field id="TF_Path" type="text"
-													placeholder="e.g. /public/data/">
-    												<crown-edpws-binding property="value"
-	    												name="CSK_MultiDataLogger/OnNewStatusStoragePath"
-		    											update-on-resume>
-			    									</crown-edpws-binding>
-				    								<crown-binding event="change" name="CSK_MultiDataLogger/setPath"
-					    								path="param/args/path" auto-commit>
-						    						</crown-binding>
-												</davinci-text-field>
-											</layout-column>
-										</layout-row>
-										<layout-row id="RowLayout13"
-											style="align-items: center; justify-content: space-between">
-											<layout-column id="ColumnLayout14">
-												<davinci-value-display id="VD_Mode" value="Data mode:">
-												</davinci-value-display>
-											</layout-column>
-											<layout-column id="ColumnLayout15" style="align-items: stretch">
-												<davinci-drop-down id="DD_Mode">
-    												<davinci-option id="Option_File" value="file">
-	        											<span>file</span>
-			    									</davinci-option>
-				    								<davinci-option id="Option_Image" value="image">
-					        							<span>image</span>
-							    					</davinci-option>
-								    				<crown-edpws-binding property="value"
-									    				name="CSK_MultiDataLogger/OnNewStatusDataMode" update-on-resume>
-										    		</crown-edpws-binding>
-											    	<crown-binding event="change" name="CSK_MultiDataLogger/setDataMode"
-												    	path="param/args/mode" auto-commit>
-												    </crown-binding>
-												</davinci-drop-down>
-											</layout-column>
-										</layout-row>
-										<stacked-view id="SV_DataMode">
-											<stacked-pane id="SP_File" value="file">
-												<layout-row id="RowLayout17">
-    												<layout-column id="ColumnLayout23" style="align-items: stretch">
-	        											<layout-row id="RowLayout14"
-			        										style="justify-content: space-between; align-items: center">
-					            							<layout-column id="ColumnLayout16">
-								                				<davinci-value-display id="VD_DataType" value="Data type:">
-												                </davinci-value-display>
-            												</layout-column>
-			            									<layout-column id="ColumnLayout17" style="align-items: stretch">
-						                						<davinci-drop-down id="DD_DataType">
-										                    		<davinci-option id="Option_Json" value="json">
-                        												<span>json</span>
-						                    						</davinci-option>
-											                    	<davinci-option id="Option_CSV" value="csv">
-												                        <span>csv</span>
-                    												</davinci-option>
-					                    							<crown-edpws-binding property="value"
-										                    			name="CSK_MultiDataLogger/OnNewStatusDataType" update-on-resume>
-												                    </crown-edpws-binding>
-                    												<crown-binding event="change" name="CSK_MultiDataLogger/setDataType"
-					                    								path="param/args/dataType" auto-commit>
-										                    		</crown-binding>
-												                </davinci-drop-down>
-            												</layout-column>
-			        									</layout-row>
-					        							<stacked-view id="SV_CSV">
-							            					<stacked-pane id="SP_CSV" value="csv">
-										                		<layout-row id="RowLayout22">
-												                    <layout-column id="ColumnLayout30" style="align-items: stretch">
-                    												</layout-column>
-					                    							<layout-column id="ColumnLayout29" style="align-items: stretch">
-										                        		<davinci-text-field id="TF_CSVFilename" type="text" label="Filename">
-												                            <crown-edpws-binding property="value"
-                            													name="CSK_MultiDataLogger/OnNewStatusCSVFilename"
-							                            						update-on-resume>
-												                            </crown-edpws-binding>
-                            												<crown-binding event="change"
-							                            						name="CSK_MultiDataLogger/setCSVFilename" path="param/args/name"
-													                            auto-commit>
-                            												</crown-binding>
-							                        					</davinci-text-field>
-												                        <davinci-text-field id="TF_CSVLabels" type="text" label="CSV labels">
-                            												<crown-edpws-binding property="value"
-							                            						name="CSK_MultiDataLogger/OnNewStatusCSVLables" update-on-resume>
-												                            </crown-edpws-binding>
-                            												<crown-binding event="change" name="CSK_MultiDataLogger/setCSVLabels"
-							                            						path="param/args/labels" auto-commit>
-												                            </crown-binding>
-                        												</davinci-text-field>
-						                        						<davinci-checkbox id="CB_ChangesOnly">
-												                            <span>Log value changes only</span>
-                            												<crown-edpws-binding property="checked"
-							                            						name="CSK_MultiDataLogger/OnNewStatusSaveOnlyChanges"
-													                            update-on-resume>
-                            												</crown-edpws-binding>
-							                            					<crown-binding event="change"
-													                            name="CSK_MultiDataLogger/setSaveOnlyChanges"
-                            													path="param/args/status" auto-commit>
-							                            					</crown-binding>
-												                        </davinci-checkbox>
-                        												<davinci-checkbox id="CB_AutoSave">
-						                            						<span>Save new data automatically</span>
-												                            <crown-edpws-binding property="checked"
-                            													name="CSK_MultiDataLogger/OnNewStatusSaveDataDirectly"
-							                            						update-on-resume>
-												                            </crown-edpws-binding>
-                            												<crown-binding event="change"
-							                            						name="CSK_MultiDataLogger/setSaveDataDirectly"
-													                            path="param/args/status" auto-commit>
-                            												</crown-binding>
-							                        					</davinci-checkbox>
-												                        <davinci-callout id="Callout_WriteCycles" type="info">
-                            												<span>
-							                                					Be aware of possibly fast repetitive write cycles. Should not be performed on internal flash memory of device ...
-												                            </span>
-                        												</davinci-callout>
-						                        						<davinci-button id="Button_SaveLog" type="primary"
-												                        	icon-position="append">
-												                            <span>Save CSV file</span>
-                            												<crown-binding event="submit" name="CSK_MultiDataLogger/saveCSVFile"
-							                            						auto-commit>
-												                            </crown-binding>
-												                        </davinci-button>
-                    												</layout-column>
-					                    						</layout-row>
-										                	</stacked-pane>
-            												<stacked-pane id="SP_JSONConfig" value="json">
-			            									</stacked-pane>
-						            						<crown-edpws-binding property="value"
-									            				name="CSK_MultiDataLogger/OnNewStatusDataType" update-on-resume>
-												            </crown-edpws-binding>
-            											</stacked-view>
-			    									</layout-column>
+<layout-row id="RowLayout1" class="myCustomBackground_CSK_Module_MultiDataLogger">
+    <layout-column id="ColumnLayout2" class="myCustomFrameNoColor_CSK_Module_MultiDataLogger"
+        style="align-items: stretch">
+        <layout-row id="RowLayout23" class="myCustomSpacerVert20_CSK_Module_MultiDataLogger">
+        </layout-row>
+        <layout-row id="RowLayout24">
+            <layout-column id="ColumnLayout1">
+                <layout-row id="RowLayout25" style="align-items: baseline">
+                    <davinci-value-display id="VD_Title" class="myCustomLabel_CSK_Module_MultiDataLogger"
+                        value="Data Logger">
+                    </davinci-value-display>
+                    <davinci-value-display id="VD_Version">
+                        <crown-edpws-binding property="value" name="CSK_MultiDataLogger/OnNewStatusModuleVersion"
+                            update-on-resume>
+                        </crown-edpws-binding>
+                    </davinci-value-display>
+                </layout-row>
+            </layout-column>
+        </layout-row>
+        <stacked-view id="SV_FeatureSupport">
+            <stacked-pane id="SP_Supported" value="true">
+                <stacked-view id="SV_UserRole">
+                    <stacked-pane id="SP_LoginOK" value="true">
+                        <layout-row id="RowLayout26">
+                            <layout-column id="ColumnLayout31" style="align-items: stretch">
+                                <layout-row id="RowLayout3" class="myCustomMarginFirstRow_CSK_Module_MultiDataLogger">
+                                    <layout-column id="ColumnLayout42"
+                                        class="myCustomMarginInline1Rem_CSK_Module_MultiDataLogger"
+                                        style="align-items: stretch">
+                                        <layout-row id="RowLayout75">
+                                            <layout-column id="ColumnLayout75" style="align-items: stretch">
+                                            </layout-column>
+                                            <layout-column id="ColumnLayout76" style="align-items: stretch">
+                                                <layout-row id="RowLayout112"
+                                                    style="flex-grow: 0; flex-shrink: 0; align-items: center">
+                                                    <layout-column id="ColumnLayout223" style="align-items: stretch">
+                                                        <davinci-value-display id="VD_SelectedInstance" value="Instance">
+                                                        </davinci-value-display>
+                                                    </layout-column>
+                                                    <layout-column id="ColumnLayout56" style="align-items: stretch">
+                                                        <davinci-drop-down id="DD_SelectInstance">
+                                                            <crown-binding event="change"
+                                                                name="CSK_MultiDataLogger/setSelectedInstance"
+                                                                path="param/args/instance" auto-commit
+                                                                converter="function(value) {return Number(value);}">
+                                                            </crown-binding>
+                                                            <crown-edpws-binding property="value"
+                                                                name="CSK_MultiDataLogger/OnNewSelectedInstance"
+                                                                update-on-resume
+                                                                converter="function(value) {return value.toString();}">
+                                                            </crown-edpws-binding>
+                                                            <crown-edpws-binding property="data"
+                                                                name="CSK_MultiDataLogger/OnNewInstanceList" update-on-resume
+                                                                converter="convertToList">
+                                                            </crown-edpws-binding>
+                                                        </davinci-drop-down>
+                                                    </layout-column>
+                                                    <layout-column id="ColumnLayout47" style="align-items: stretch">
+                                                        <layout-row id="RowLayout65"
+                                                            class="myCustomMarginTop7PX_CSK_Module_MultiDataLogger"
+                                                            style="align-items: center; justify-content: center">
+                                                            <davinci-button id="Button_AddInstance"
+                                                                class="myCustomButton_CSK_Module_MultiDataLogger" type="outline"
+                                                                icon-position="append" title="Add instance" icon="content/add">
+                                                                <span></span>
+                                                                <crown-binding event="submit"
+                                                                    name="CSK_MultiDataLogger/addInstance" auto-commit>
+                                                                </crown-binding>
+                                                            </davinci-button>
+                                                            <davinci-button id="Button_ResetInstances"
+                                                                class="myCustomButton_CSK_Module_MultiDataLogger" type="outline"
+                                                                icon-position="append"
+                                                                title="Reset instances to one single instance. New setup needs to be saved and restart app to clear old threads."
+                                                                icon="action/delete">
+                                                                <span></span>
+                                                                <crown-binding event="submit"
+                                                                    name="CSK_MultiDataLogger/resetInstances" auto-commit>
+                                                                </crown-binding>
+                                                            </davinci-button>
+                                                        </layout-row>
+                                                    </layout-column>
+                                                </layout-row>
+                                            </layout-column>
+                                        </layout-row>
+                                    </layout-column>
+                                    <layout-column id="ColumnLayout43" class="myCustomBorderLeft_CSK_Module_MultiDataLogger"
+                                        style="align-items: stretch">
+                                        <layout-row id="RowLayout46" style="align-items: baseline">
+                                            <layout-column id="ColumnLayout81" style="align-items: stretch">
+                                                <layout-row id="RowLayout245" style="align-items: center">
+                                                    <layout-column id="ColumnLayout57" style="align-items: stretch">
+                                                        <davinci-value-display id="VD_PersistentData" value="Persistent Data">
+                                                        </davinci-value-display>
+                                                    </layout-column>
+                                                    <layout-column id="ColumnLayout73"
+                                                        style="align-items: stretch; flex-grow: 2">
+                                                        <davinci-text-field id="TF_ParameterName" type="text"
+                                                            title="Name of the parameters within the CSK_PersistentData module to be uses for this module.">
+                                                            <crown-edpws-binding property="value"
+                                                                name="CSK_MultiDataLogger/OnNewParameterName" update-on-resume>
+                                                            </crown-edpws-binding>
+                                                            <crown-binding event="change"
+                                                                name="CSK_MultiDataLogger/setParameterName"
+                                                                path="param/args/name" auto-commit>
+                                                            </crown-binding>
+                                                            <crown-edpws-binding property="disabled"
+                                                                name="CSK_MultiDataLogger/OnPersistentDataModuleAvailable"
+                                                                update-on-resume converter="function(value) {return !value;}">
+                                                            </crown-edpws-binding>
+                                                        </davinci-text-field>
+                                                    </layout-column>
+                                                    <layout-column id="Column_PersistentData" style="align-items: stretch">
+                                                        <layout-row id="RowLayout55">
+                                                            <layout-column id="ColumnLayout762" style="align-items: stretch">
+                                                                <layout-row id="RowLayout123"
+                                                                    class="myCustomMarginTop7PX_CSK_Module_MultiDataLogger"
+                                                                    style="justify-content: center; align-items: center">
+                                                                    <davinci-button id="B_LoadConfig"
+                                                                        class="myCustomButton_CSK_Module_MultiDataLogger"
+                                                                        type="outline" icon-position="append"
+                                                                        title="Load configured parameters from CSK_PersistentData module."
+                                                                        icon="action/history">
+                                                                        <span></span>
+                                                                        <crown-binding event="submit"
+                                                                            name="CSK_MultiDataLogger/loadParameters"
+                                                                            auto-commit>
+                                                                        </crown-binding>
+                                                                        <crown-edpws-binding property="disabled"
+                                                                            name="CSK_MultiDataLogger/OnPersistentDataModuleAvailable"
+                                                                            update-on-resume
+                                                                            converter="function(value) {return !value;}">
+                                                                        </crown-edpws-binding>
+                                                                    </davinci-button>
+                                                                    <davinci-button id="B_SaveConfig"
+                                                                        class="myCustomButton_CSK_Module_MultiDataLogger"
+                                                                        type="outline" icon-position="append"
+                                                                        title="Save current configured parameters of this module within CSK_PersistentData module."
+                                                                        icon="content/save">
+                                                                        <span></span>
+                                                                        <crown-binding event="submit"
+                                                                            name="CSK_MultiDataLogger/sendParameters"
+                                                                            auto-commit>
+                                                                        </crown-binding>
+                                                                        <crown-edpws-binding property="disabled"
+                                                                            name="CSK_MultiDataLogger/OnPersistentDataModuleAvailable"
+                                                                            update-on-resume
+                                                                            converter="function(value) {return !value;}">
+                                                                        </crown-edpws-binding>
+                                                                    </davinci-button>
+                                                                </layout-row>
+                                                            </layout-column>
+                                                        </layout-row>
+                                                    </layout-column>
+                                                </layout-row>
+                                                <layout-row id="RowLayout57" style="align-items: center">
+                                                    <layout-column id="ColumnLayout575" style="align-items: stretch">
+                                                        <davinci-collapse id="Collapse_PersistentData"
+                                                            class="myCustomPersistentDataMargin_CSK_Module_MultiDataLogger"
+                                                            collapsed-title="..." expanded-title="...">
+                                                            <layout-row id="RowLayout45"
+                                                                class="myCustomPersistentDataMarginBack_CSK_Module_MultiDataLogger"
+                                                                style="align-items: center">
+                                                                <layout-column id="ColumnLayout6123"
+                                                                    style="align-items: stretch">
+                                                                </layout-column>
+                                                                <layout-column id="ColumnLayout72"
+                                                                    style="align-items: stretch; flex-grow: 2">
+                                                                    <layout-row id="RowLayout38">
+                                                                        <layout-column id="ColumnLayout215"
+                                                                            style="align-items: stretch">
+                                                                            <layout-row id="RowLayout2321"
+                                                                                style="align-items: center">
+                                                                                <davinci-value-display id="VD_LoadConfigx"
+                                                                                    value="Load on reboot:"
+                                                                                    title="Load configured parameters from CSK_PersistentData on app start.">
+                                                                                </davinci-value-display>
+                                                                                <davinci-checkbox id="CB_LoadConfig"
+                                                                                    title="Load configured parameters from CSK_PersistentData on app start.">
+                                                                                    <span></span>
+                                                                                    <crown-edpws-binding property="checked"
+                                                                                        name="CSK_MultiDataLogger/OnNewStatusLoadParameterOnReboot"
+                                                                                        update-on-resume>
+                                                                                    </crown-edpws-binding>
+                                                                                    <crown-edpws-binding property="disabled"
+                                                                                        name="CSK_MultiDataLogger/OnPersistentDataModuleAvailable"
+                                                                                        update-on-resume
+                                                                                        converter="function(value) {return !value;}">
+                                                                                    </crown-edpws-binding>
+                                                                                    <crown-binding event="change"
+                                                                                        name="CSK_MultiDataLogger/setLoadOnReboot"
+                                                                                        path="param/args/status" auto-commit>
+                                                                                    </crown-binding>
+                                                                                </davinci-checkbox>
+                                                                            </layout-row>
+                                                                        </layout-column>
+                                                                        <layout-column id="ColumnLayout77"
+                                                                            style="align-items: stretch">
+                                                                            <layout-row id="RowLayout5612"
+                                                                                style="align-items: center; justify-content: flex-end">
+                                                                                <davinci-value-display id="VD_FLowConfigPriox"
+                                                                                    value="Flow config priority:"
+                                                                                    title="FlowConfig priority for FlowConfig relevant configurations.">
+                                                                                </davinci-value-display>
+                                                                                <davinci-checkbox id="CB_FlowConfigPrio"
+                                                                                    title="FlowConfig priority for FlowConfig relevant configurations.">
+                                                                                    <span></span>
+                                                                                    <crown-edpws-binding property="checked"
+                                                                                        name="CSK_MultiDataLogger/OnNewStatusFlowConfigPriority"
+                                                                                        update-on-resume>
+                                                                                    </crown-edpws-binding>
+                                                                                    <crown-binding event="change"
+                                                                                        name="CSK_MultiDataLogger/setFlowConfigPriority"
+                                                                                        path="param/args/status" auto-commit>
+                                                                                    </crown-binding>
+                                                                                </davinci-checkbox>
+                                                                            </layout-row>
+                                                                        </layout-column>
+                                                                    </layout-row>
+                                                                </layout-column>
+                                                                <layout-column id="ColumnLayout79" style="align-items: stretch">
+                                                                </layout-column>
+                                                            </layout-row>
+                                                        </davinci-collapse>
+                                                    </layout-column>
+                                                </layout-row>
+                                            </layout-column>
+                                        </layout-row>
+                                    </layout-column>
+                                </layout-row>
+                                <layout-row id="RowLayout60" class="myCustomSpacerVert10_CSK_Module_MultiDataLogger">
+                                </layout-row>
+                                <layout-row id="RowLayout47" class="myCustomBorderBottom_CSK_Module_MultiDataLogger"
+                                    style="flex-grow: 0; flex-shrink: 0">
+                                </layout-row>
+                                <layout-row id="RowLayout61" class="myCustomSpacerVert20_CSK_Module_MultiDataLogger"
+                                    style="flex-grow: 0; flex-shrink: 0">
+                                </layout-row>
+                                <layout-row id="RowLayout8">
+                                    <layout-column id="ColumnLayout9" class="myCustomFrame_CSK_Module_MultiDataLogger"
+                                        style="align-items: stretch">
+                                        <davinci-value-display id="VD_Setup"
+                                            class="myCustomFrameLabel_CSK_Module_MultiDataLogger" label="Setup"
+                                            style="align-self: flex-start">
+                                        </davinci-value-display>
+                                        <layout-row id="RowLayout12"
+                                            style="align-items: center; justify-content: space-between">
+                                            <layout-column id="ColumnLayout12" style="align-items: stretch">
+                                                <davinci-value-display id="VD_Path" value="Path:">
+                                                </davinci-value-display>
+                                            </layout-column>
+                                            <layout-column id="ColumnLayout13" style="align-items: stretch">
+                                                <davinci-text-field id="TF_Path" type="text" placeholder="e.g. /public/data/">
+                                                    <crown-edpws-binding property="value"
+                                                        name="CSK_MultiDataLogger/OnNewStatusStoragePath" update-on-resume>
+                                                    </crown-edpws-binding>
+                                                    <crown-binding event="change" name="CSK_MultiDataLogger/setPath"
+                                                        path="param/args/path" auto-commit>
+                                                    </crown-binding>
+                                                </davinci-text-field>
+                                            </layout-column>
+                                        </layout-row>
+                                        <layout-row id="RowLayout13"
+                                            style="align-items: center; justify-content: space-between">
+                                            <layout-column id="ColumnLayout14">
+                                                <davinci-value-display id="VD_Mode" value="Data mode:">
+                                                </davinci-value-display>
+                                            </layout-column>
+                                            <layout-column id="ColumnLayout15" style="align-items: stretch">
+                                                <davinci-drop-down id="DD_Mode">
+                                                    <davinci-option id="Option_File" value="file">
+                                                        <span>file</span>
+                                                    </davinci-option>
+                                                    <davinci-option id="Option_Image" value="image">
+                                                        <span>image</span>
+                                                    </davinci-option>
+                                                    <crown-edpws-binding property="value"
+                                                        name="CSK_MultiDataLogger/OnNewStatusDataMode" update-on-resume>
+                                                    </crown-edpws-binding>
+                                                    <crown-binding event="change" name="CSK_MultiDataLogger/setDataMode"
+                                                        path="param/args/mode" auto-commit>
+                                                    </crown-binding>
+                                                </davinci-drop-down>
+                                            </layout-column>
+                                        </layout-row>
+                                        <stacked-view id="SV_DataMode">
+                                            <stacked-pane id="SP_File" value="file">
+                                                <layout-row id="RowLayout17">
+                                                    <layout-column id="ColumnLayout23" style="align-items: stretch">
+                                                        <layout-row id="RowLayout14"
+                                                            style="justify-content: space-between; align-items: center">
+                                                            <layout-column id="ColumnLayout16">
+                                                                <davinci-value-display id="VD_DataType" value="Data type:">
+                                                                </davinci-value-display>
+                                                            </layout-column>
+                                                            <layout-column id="ColumnLayout17" style="align-items: stretch">
+                                                                <davinci-drop-down id="DD_DataType">
+                                                                    <davinci-option id="Option_Json" value="json">
+                                                                        <span>json</span>
+                                                                    </davinci-option>
+                                                                    <davinci-option id="Option_CSV" value="csv">
+                                                                        <span>csv</span>
+                                                                    </davinci-option>
+                                                                    <crown-edpws-binding property="value"
+                                                                        name="CSK_MultiDataLogger/OnNewStatusDataType"
+                                                                        update-on-resume>
+                                                                    </crown-edpws-binding>
+                                                                    <crown-binding event="change"
+                                                                        name="CSK_MultiDataLogger/setDataType"
+                                                                        path="param/args/dataType" auto-commit>
+                                                                    </crown-binding>
+                                                                </davinci-drop-down>
+                                                            </layout-column>
+                                                        </layout-row>
+                                                        <stacked-view id="SV_CSV">
+                                                            <stacked-pane id="SP_CSV" value="csv">
+                                                                <layout-row id="RowLayout22">
+                                                                    <layout-column id="ColumnLayout30"
+                                                                        style="align-items: stretch">
+                                                                    </layout-column>
+                                                                    <layout-column id="ColumnLayout29"
+                                                                        style="align-items: stretch">
+                                                                        <davinci-text-field id="TF_CSVFilename" type="text"
+                                                                            label="Filename">
+                                                                            <crown-edpws-binding property="value"
+                                                                                name="CSK_MultiDataLogger/OnNewStatusCSVFilename"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                            <crown-binding event="change"
+                                                                                name="CSK_MultiDataLogger/setCSVFilename"
+                                                                                path="param/args/name" auto-commit>
+                                                                            </crown-binding>
+                                                                        </davinci-text-field>
+                                                                        <davinci-text-field id="TF_CSVLabels" type="text"
+                                                                            label="CSV labels">
+                                                                            <crown-edpws-binding property="value"
+                                                                                name="CSK_MultiDataLogger/OnNewStatusCSVLables"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                            <crown-binding event="change"
+                                                                                name="CSK_MultiDataLogger/setCSVLabels"
+                                                                                path="param/args/labels" auto-commit>
+                                                                            </crown-binding>
+                                                                        </davinci-text-field>
+                                                                        <davinci-checkbox id="CB_ChangesOnly">
+                                                                            <span>Log value changes only</span>
+                                                                            <crown-edpws-binding property="checked"
+                                                                                name="CSK_MultiDataLogger/OnNewStatusSaveOnlyChanges"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                            <crown-binding event="change"
+                                                                                name="CSK_MultiDataLogger/setSaveOnlyChanges"
+                                                                                path="param/args/status" auto-commit>
+                                                                            </crown-binding>
+                                                                        </davinci-checkbox>
+                                                                        <davinci-checkbox id="CB_AutoSave">
+                                                                            <span>Save new data automatically</span>
+                                                                            <crown-edpws-binding property="checked"
+                                                                                name="CSK_MultiDataLogger/OnNewStatusSaveDataDirectly"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                            <crown-binding event="change"
+                                                                                name="CSK_MultiDataLogger/setSaveDataDirectly"
+                                                                                path="param/args/status" auto-commit>
+                                                                            </crown-binding>
+                                                                        </davinci-checkbox>
+                                                                        <davinci-callout id="Callout_WriteCycles" type="info">
+                                                                            <span>
+		        										Be aware of possibly fast repetitive write cycles. Should not be performed on internal flash memory of device ...
+		        										</span>
+                                                                        </davinci-callout>
+												<layout-row id="RowLayout2" style="justify-content: flex-end">
+												<davinci-button id="Button_SaveLog"
+													class="myCustomButton_CSK_Module_MultiDataLogger" type="primary"
+													icon-position="append" title="Save CSV file" icon="content/save">
+												<span></span>
+												<crown-binding event="submit" name="CSK_MultiDataLogger/saveCSVFile"
+													auto-commit>
+												</crown-binding>
+												</davinci-button>
 												</layout-row>
-											</stacked-pane>
-											<stacked-pane id="SP_Image" value="image">
-												<layout-row id="RowLayout18">
-    												<layout-column id="ColumnLayout24" style="align-items: stretch">
-	        											<layout-row id="RowLayout15"
-			        										style="justify-content: space-between; align-items: center">
-					            							<layout-column id="ColumnLayout18" style="align-items: stretch">
-								                				<davinci-value-display id="VD_ImageType" value="Image type:">
-												                </davinci-value-display>
-            												</layout-column>
-			            									<layout-column id="ColumnLayout19" style="align-items: stretch">
-						                						<davinci-drop-down id="DD_ImageType">
-										                    		<davinci-option id="Option_BMP" value="bmp">
-                        												<span>BMP</span>
-                    												</davinci-option>
-					                    							<davinci-option id="Option_JPG" value="jpg">
-										                        		<span>JPEG</span>
-                    												</davinci-option>
-					                    							<davinci-option id="Option_PNG" value="png">
-										                        		<span>PNG</span>
-                    												</davinci-option>
-					                    							<davinci-option id="Option_JSON" value="json">
-										                        		<span>JSON</span>
-                    												</davinci-option>
-					                    							<davinci-option id="Option_MSGPACK" value="msgpack">
-										                        		<span>MSGPACK</span>
-                    												</davinci-option>
-					                    							<crown-edpws-binding property="value"
-										                    			name="CSK_MultiDataLogger/OnNewStatusImageType" update-on-resume>
-												                    </crown-edpws-binding>
-                    												<crown-binding event="change" name="CSK_MultiDataLogger/setImageType"
-					                    								path="param/args/imgType" auto-commit>
-										                    		</crown-binding>
-												                </davinci-drop-down>
-            												</layout-column>
-			        									</layout-row>
-					        							<stacked-view id="SV_Compression">
-							            					<stacked-pane id="SP_JPG" value="jpg">
-										                		<layout-row id="RowLayout20" style="justify-content: space-between">
-												                    <layout-column id="ColumnLayout26" style="align-items: stretch">
-                        												<layout-row id="RowLayout21" style="align-items: center">
-						                            						<layout-column id="ColumnLayout27" style="align-items: stretch">
-												                            </layout-column>
-                            												<layout-column id="ColumnLayout28" style="align-items: stretch">
-							                                					<davinci-value-display id="VD_CompressionJPG"
-													                                value="Image compression:">
-                                												</davinci-value-display>
-								                                				<davinci-numeric-field id="NF_CompressionJPG" type="outline" min="0"
-													                                max="255" ticks="1" group-separator="," decimal-separator="."
-                                													format-pattern="0">
-								                                    				<crown-edpws-binding property="value"
-													                                    name="CSK_MultiDataLogger/OnNewStatusImageCompressionValue"
-                                    													update-on-resume>
-									                                    			</crown-edpws-binding>
-												                                    <crown-binding event="change"
-													                                    name="CSK_MultiDataLogger/setCompressionValue"
-													                                    path="param/args/value" auto-commit>
-												                                    </crown-binding>
-                                												</davinci-numeric-field>
-								                            				</layout-column>
-												                        </layout-row>
-                    												</layout-column>
-					                							</layout-row>
-									            			</stacked-pane>
-												            <stacked-pane id="SP_PNG" value="png">
-                												<layout-row id="RowLayout19" style="justify-content: space-between">
-				                    								<layout-column id="ColumnLayout25" style="align-items: stretch">
-									                        			<layout-row id="RowLayout16"
-													                        style="justify-content: space-between; align-items: center">
-                            												<layout-column id="ColumnLayout20" style="align-items: stretch">
-							                            					</layout-column>
-												                            <layout-column id="ColumnLayout21" style="align-items: stretch">
-                                												<davinci-value-display id="VD_CompressionPNG"
-								                                					value="Image compression:">
-												                                </davinci-value-display>
-                                												<davinci-numeric-field id="NF_CompressionPNG" type="outline" min="0"
-								                                					max="9" ticks="1" group-separator="," decimal-separator="."
-													                                format-pattern="0">
-                                    												<crown-edpws-binding property="value"
-									                                    				name="CSK_MultiDataLogger/OnNewStatusImageCompressionValue"
-													                                    update-on-resume>
-                                    												</crown-edpws-binding>
-									                                    			<crown-binding event="change"
-													                                    name="CSK_MultiDataLogger/setCompressionValue"
-													                                    path="param/args/value" auto-commit>
-												                                    </crown-binding>
-                                												</davinci-numeric-field>
-								                            				</layout-column>
-												                        </layout-row>
-                    												</layout-column>
-					                							</layout-row>
-									            			</stacked-pane>
-												            <stacked-pane id="SP_BMP" value="bmp">
+                                                                    </layout-column>
+                                                                </layout-row>
                                                             </stacked-pane>
-            												<stacked-pane id="SP_JSON" value="json">
+                                                            <stacked-pane id="SP_JSONConfig" value="json">
                                                             </stacked-pane>
-            												<stacked-pane id="SP_MSGPACK" value="msgpack">
-			            									</stacked-pane>
-						            						<crown-edpws-binding property="value"
-									            				name="CSK_MultiDataLogger/OnNewStatusImageType" update-on-resume>
-												            </crown-edpws-binding>
-        												</stacked-view>
-		    										</layout-column>
-												</layout-row>
-											</stacked-pane>
-											<crown-edpws-binding property="value"
-												name="CSK_MultiDataLogger/OnNewStatusDataMode" update-on-resume>
-											</crown-edpws-binding>
-										</stacked-view>
-										<layout-row id="RowLayout10"
-											style="align-items: center; justify-content: space-between">
-											<layout-column id="ColumnLayout10" style="align-items: stretch">
-												<davinci-value-display id="VD_RegisteredEvent"
-													value="Registered event:">
-												</davinci-value-display>
-											</layout-column>
-											<layout-column id="ColumnLayout11" style="align-items: stretch">
-												<davinci-auto-suggest id="AS_RegisteredEvent" min-length="0">
-    												<crown-edpws-binding property="value"
-	    												name="CSK_MultiDataLogger/OnNewStatusRegisteredEvent"
-		    											update-on-resume>
-			    									</crown-edpws-binding>
-				    								<crown-binding event="change"
-					    								name="CSK_MultiDataLogger/setRegisterEvent"
-						    							path="param/args/event" auto-commit>
-							    					</crown-binding>
-								    				<crown-edpws-binding property="data"
-									    				name="CSK_MultiDataLogger/OnNewStatusAvailableEvents"
-										    			update-on-resume converter="convertToList">
-											    	</crown-edpws-binding>
-												</davinci-auto-suggest>
-											</layout-column>
-										</layout-row>
-										<davinci-collapse id="Collapse_FilenameInfo" collapsed-title="Info"
-											expanded-title="Hide">
-											<davinci-callout id="Callout_FilenameInfo" type="info">
-												<span>
-												The configured event should provide as first parameter the data to store and as 2nd parameter an optional filename (not needed if data type is 'csv'). Otherwise it will use the current timestamp as filename.
-												</span>
-											</davinci-callout>
-										</davinci-collapse>
-										<layout-row id="RowLayout9">
-											<layout-column id="Column_PersistentData"
-												class="myCustomFrame_CSK_Module_MultiDataLogger"
-												style="align-items: stretch">
-												<layout-row id="RowLayout4"
-													style="justify-content: space-between; align-items: center">
-    												<layout-column id="ColumnLayout5" style="align-items: stretch">
-	        											<davinci-value-display id="VD_ParameterName" value="Parameter name:"
-			        										title="Name of the parameters within the CSK_PersistentData module to be uses for this module.">
-					        							</davinci-value-display>
-							    					</layout-column>
-								    				<layout-column id="ColumnLayout6" style="align-items: stretch">
-									        			<davinci-text-field id="TF_ParameterName" type="text"
-											        		title="Name of the parameters within the CSK_PersistentData module to be uses for this module.">
-												            <crown-edpws-binding property="value"
-            													name="CSK_MultiDataLogger/OnNewParameterName" update-on-resume>
-			            									</crown-edpws-binding>
-						            						<crown-binding event="change" name="CSK_MultiDataLogger/setParameterName"
-									            				path="param/args/name" auto-commit>
-												            </crown-binding>
-            												<crown-edpws-binding property="disabled"
-			            										name="CSK_MultiDataLogger/OnPersistentDataModuleAvailable"
-						            							update-on-resume converter="function(value) {return !value;}">
-									            			</crown-edpws-binding>
-												        </davinci-text-field>
-												    </layout-column>
-												</layout-row>
-												<layout-row id="RowLayout2"
-													style="justify-content: space-between; align-items: center">
-    												<davinci-value-display id="VD_LoadConfig"
-	    												value="Load config on app start:"
-		    											title="Load configured parameters from CSK_PersistentData on app start.">
-			    									</davinci-value-display>
-				    								<davinci-checkbox id="CB_LoadConfig"
-					    								title="Load configured parameters from CSK_PersistentData on app start.">
-						        						<span></span>
-								        				<crown-edpws-binding property="checked"
-										        			name="CSK_MultiDataLogger/OnNewStatusLoadParameterOnReboot"
-												        	update-on-resume>
-												        </crown-edpws-binding>
-        												<crown-edpws-binding property="disabled"
-		        											name="CSK_MultiDataLogger/OnPersistentDataModuleAvailable"
-				        									update-on-resume converter="function(value) {return !value;}">
-						        						</crown-edpws-binding>
-								        				<crown-binding event="change" name="CSK_MultiDataLogger/setLoadOnReboot"
-										        			path="param/args/status" auto-commit>
-												        </crown-binding>
-    												</davinci-checkbox>
-												</layout-row>
-												<layout-row id="RowLayout3">
-	    											<layout-column id="ColumnLayout3" style="align-items: stretch">
-		        										<davinci-button id="B_LoadConfig" type="primary"
-				        									icon-position="append"
-						        							title="Load configured parameters from CSK_PersistentData module.">
-								            				<span>Load Config</span>
-											            	<crown-binding event="submit" name="CSK_MultiDataLogger/loadParameters"
-													            auto-commit>
-            												</crown-binding>
-			            									<crown-edpws-binding property="disabled"
-						            							name="CSK_MultiDataLogger/OnPersistentDataModuleAvailable"
-									            				update-on-resume converter="function(value) {return !value;}">
-												            </crown-edpws-binding>
-        												</davinci-button>
-		    										</layout-column>
-			    									<layout-column id="ColumnLayout4" style="align-items: stretch">
-				        								<davinci-button id="B_SaveConfig" type="primary"
-						        							icon-position="append"
-								        					title="Save current configured parameters of this module within CSK_PersistentData module.">
-										            		<span>Save Config</span>
-												            <crown-binding event="submit" name="CSK_MultiDataLogger/sendParameters"
-            													auto-commit>
-			            									</crown-binding>
-						            						<crown-edpws-binding property="disabled"
-									            				name="CSK_MultiDataLogger/OnPersistentDataModuleAvailable"
-												            	update-on-resume converter="function(value) {return !value;}">
-												            </crown-edpws-binding>
-        												</davinci-button>
-		    										</layout-column>
-												</layout-row>
-											</layout-column>
-										</layout-row>
-									</layout-column>
-								</layout-row>
-							</davinci-tab>
-							<davinci-tab id="Tab_Instances" label="Instances">
-								<layout-row id="RowLayout7">
-									<layout-column id="ColumnLayout8" style="align-items: stretch">
-										<davinci-button id="Button_AddInstance" type="primary"
-											icon-position="append">
-											<span>Add instance</span>
-											<crown-binding event="submit" name="CSK_MultiDataLogger/addInstance"
-												auto-commit>
-											</crown-binding>
-										</davinci-button>
-										<davinci-button id="Button_ResetInstances" type="primary"
-											icon-position="append"
-											title="Reset insances to single instance. Reload app after reseting.">
-											<span>Reset instances</span>
-											<crown-binding event="submit" name="CSK_MultiDataLogger/resetInstances"
-												auto-commit>
-											</crown-binding>
-										</davinci-button>
-									</layout-column>
-								</layout-row>
-							</davinci-tab>
-						</davinci-tabs>
+                                                            <crown-edpws-binding property="value"
+                                                                name="CSK_MultiDataLogger/OnNewStatusDataType" update-on-resume>
+                                                            </crown-edpws-binding>
+                                                        </stacked-view>
+                                                    </layout-column>
+                                                </layout-row>
+                                            </stacked-pane>
+                                            <stacked-pane id="SP_Image" value="image">
+                                                <layout-row id="RowLayout18">
+                                                    <layout-column id="ColumnLayout24" style="align-items: stretch">
+                                                        <layout-row id="RowLayout15"
+                                                            style="justify-content: space-between; align-items: center">
+                                                            <layout-column id="ColumnLayout18" style="align-items: stretch">
+                                                                <davinci-value-display id="VD_ImageType" value="Image type:">
+                                                                </davinci-value-display>
+                                                            </layout-column>
+                                                            <layout-column id="ColumnLayout19" style="align-items: stretch">
+                                                                <davinci-drop-down id="DD_ImageType">
+                                                                    <davinci-option id="Option_BMP" value="bmp">
+                                                                        <span>BMP</span>
+                                                                    </davinci-option>
+                                                                    <davinci-option id="Option_JPG" value="jpg">
+                                                                        <span>JPEG</span>
+                                                                    </davinci-option>
+                                                                    <davinci-option id="Option_PNG" value="png">
+                                                                        <span>PNG</span>
+                                                                    </davinci-option>
+                                                                    <davinci-option id="Option_JSON" value="json">
+                                                                        <span>JSON</span>
+                                                                    </davinci-option>
+                                                                    <davinci-option id="Option_MSGPACK" value="msgpack">
+                                                                        <span>MSGPACK</span>
+                                                                    </davinci-option>
+                                                                    <crown-edpws-binding property="value"
+                                                                        name="CSK_MultiDataLogger/OnNewStatusImageType"
+                                                                        update-on-resume>
+                                                                    </crown-edpws-binding>
+                                                                    <crown-binding event="change"
+                                                                        name="CSK_MultiDataLogger/setImageType"
+                                                                        path="param/args/imgType" auto-commit>
+                                                                    </crown-binding>
+                                                                </davinci-drop-down>
+                                                            </layout-column>
+                                                        </layout-row>
+                                                        <stacked-view id="SV_Compression">
+                                                            <stacked-pane id="SP_JPG" value="jpg">
+                                                                <layout-row id="RowLayout20"
+                                                                    style="justify-content: space-between">
+                                                                    <layout-column id="ColumnLayout26"
+                                                                        style="align-items: stretch">
+                                                                        <layout-row id="RowLayout21"
+                                                                            style="align-items: center">
+                                                                            <layout-column id="ColumnLayout27"
+                                                                                style="align-items: stretch">
+                                                                            </layout-column>
+                                                                            <layout-column id="ColumnLayout28"
+                                                                                style="align-items: stretch">
+                                                                                <davinci-value-display id="VD_CompressionJPG"
+                                                                                    value="Image compression:">
+                                                                                </davinci-value-display>
+                                                                                <davinci-numeric-field id="NF_CompressionJPG"
+                                                                                    type="outline" min="0" max="255" ticks="1"
+                                                                                    group-separator="," decimal-separator="."
+                                                                                    format-pattern="0">
+                                                                                    <crown-edpws-binding property="value"
+                                                                                        name="CSK_MultiDataLogger/OnNewStatusImageCompressionValue"
+                                                                                        update-on-resume>
+                                                                                    </crown-edpws-binding>
+                                                                                    <crown-binding event="change"
+                                                                                        name="CSK_MultiDataLogger/setCompressionValue"
+                                                                                        path="param/args/value" auto-commit>
+                                                                                    </crown-binding>
+                                                                                </davinci-numeric-field>
+                                                                            </layout-column>
+                                                                        </layout-row>
+                                                                    </layout-column>
+                                                                </layout-row>
+                                                            </stacked-pane>
+                                                            <stacked-pane id="SP_PNG" value="png">
+                                                                <layout-row id="RowLayout19"
+                                                                    style="justify-content: space-between">
+                                                                    <layout-column id="ColumnLayout25"
+                                                                        style="align-items: stretch">
+                                                                        <layout-row id="RowLayout16"
+                                                                            style="justify-content: space-between; align-items: center">
+                                                                            <layout-column id="ColumnLayout20"
+                                                                                style="align-items: stretch">
+                                                                            </layout-column>
+                                                                            <layout-column id="ColumnLayout21"
+                                                                                style="align-items: stretch">
+                                                                                <davinci-value-display id="VD_CompressionPNG"
+                                                                                    value="Image compression:">
+                                                                                </davinci-value-display>
+                                                                                <davinci-numeric-field id="NF_CompressionPNG"
+                                                                                    type="outline" min="0" max="9" ticks="1"
+                                                                                    group-separator="," decimal-separator="."
+                                                                                    format-pattern="0">
+                                                                                    <crown-edpws-binding property="value"
+                                                                                        name="CSK_MultiDataLogger/OnNewStatusImageCompressionValue"
+                                                                                        update-on-resume>
+                                                                                    </crown-edpws-binding>
+                                                                                    <crown-binding event="change"
+                                                                                        name="CSK_MultiDataLogger/setCompressionValue"
+                                                                                        path="param/args/value" auto-commit>
+                                                                                    </crown-binding>
+                                                                                </davinci-numeric-field>
+                                                                            </layout-column>
+                                                                        </layout-row>
+                                                                    </layout-column>
+                                                                </layout-row>
+                                                            </stacked-pane>
+                                                            <stacked-pane id="SP_BMP" value="bmp"></stacked-pane>
+                                                            <stacked-pane id="SP_JSON" value="json"></stacked-pane>
+                                                            <stacked-pane id="SP_MSGPACK" value="msgpack">
+                                                            </stacked-pane>
+                                                            <crown-edpws-binding property="value"
+                                                                name="CSK_MultiDataLogger/OnNewStatusImageType"
+                                                                update-on-resume>
+                                                            </crown-edpws-binding>
+                                                        </stacked-view>
+                                                    </layout-column>
+                                                </layout-row>
+                                            </stacked-pane>
+                                            <crown-edpws-binding property="value" name="CSK_MultiDataLogger/OnNewStatusDataMode"
+                                                update-on-resume>
+                                            </crown-edpws-binding>
+                                        </stacked-view>
+                                        <curie-callout id="DC_FlowConfigInfo1" type="info" value="FlowConfig priority active.">
+                                            <crown-edpws-binding property="hidden"
+                                                name="CSK_MultiDataLogger/OnNewStatusFlowConfigPriority" update-on-resume
+                                                converter="function(value) {return !value;}">
+                                            </crown-edpws-binding>
+                                        </curie-callout>
+                                        <layout-row id="RowLayout10"
+                                            style="align-items: center; justify-content: space-between">
+                                            <layout-column id="ColumnLayout10" style="align-items: stretch">
+                                                <davinci-value-display id="VD_RegisteredEvent" value="Registered event:">
+                                                </davinci-value-display>
+                                            </layout-column>
+                                            <layout-column id="ColumnLayout11" style="align-items: stretch">
+                                                <davinci-auto-suggest id="AS_RegisteredEvent" min-length="0">
+                                                    <crown-edpws-binding property="value"
+                                                        name="CSK_MultiDataLogger/OnNewStatusRegisteredEvent" update-on-resume>
+                                                    </crown-edpws-binding>
+                                                    <crown-binding event="change" name="CSK_MultiDataLogger/setRegisterEvent"
+                                                        path="param/args/event" auto-commit>
+                                                    </crown-binding>
+                                                    <crown-edpws-binding property="data"
+                                                        name="CSK_MultiDataLogger/OnNewStatusAvailableEvents" update-on-resume
+                                                        converter="convertToList">
+                                                    </crown-edpws-binding>
+                                                    <crown-edpws-binding property="disabled"
+                                                        name="CSK_MultiDataLogger/OnNewStatusFlowConfigPriority"
+                                                        update-on-resume>
+                                                    </crown-edpws-binding>
+                                                </davinci-auto-suggest>
+                                            </layout-column>
+                                        </layout-row>
+                                        <davinci-collapse id="Collapse_FilenameInfo" collapsed-title="Info"
+                                            expanded-title="Hide">
+                                            <davinci-callout id="Callout_FilenameInfo" type="info">
+                                                <span>
+		        									The configured event should provide as first parameter the data to store and as 2nd parameter an optional filename (not needed if data type is 'csv'). Otherwise it will use the current timestamp as filename.
+		        								</span>
+                                            </davinci-callout>
+                                        </davinci-collapse>
+                                    </layout-column>
+                                    <layout-column id="ColumnLayout3" style="align-items: stretch">
+                                    </layout-column>
+                                </layout-row>
+                            </layout-column>
+                        </layout-row>
+                    </stacked-pane>
+                    <stacked-pane id="SP_LoginNOK" value="false">
+                        <layout-row id="RowLayout6">
+                            <davinci-callout id="Callout1" type="info">
+                                <span>Please log in via UserManagement module.</span>
+                            </davinci-callout>
+                        </layout-row>
+                    </stacked-pane>
+                    <crown-edpws-binding property="value" name="CSK_MultiDataLogger/OnUserLevelOperatorActive" update-on-resume
+                        converter="function(value) {return value.toString();}">
+                    </crown-edpws-binding>
+                </stacked-view>
+            </stacked-pane>
+            <stacked-pane id="SP_NoSupport" value="false">
+                <layout-row id="RowLayout29">
+					<layout-column id="ColumnLayout39" style="align-items: stretch">
+						<davinci-callout id="Callout31" type="warning" style="width: 99%">
+							<span>Module is not supported on this device...</span>
+						</davinci-callout>
+						<img id="UI_sample"
+							src="assets/CSK_Module_MultiDataLogger/UI_sample.png"
+							alt="UI sample">
 					</layout-column>
-				</layout-row>
-			</stacked-pane>
-			<stacked-pane id="SP_LoginNOK" value="false">
-				<layout-row id="RowLayout6">
-					<davinci-callout id="Callout1" type="info">
-						<span>Please log in via UserManagement module.</span>
-					</davinci-callout>
-				</layout-row>
-			</stacked-pane>
-			<crown-edpws-binding property="value"
-				name="CSK_MultiDataLogger/OnUserLevelOperatorActive" update-on-resume
-				converter="function(value) {return value.toString();}">
-			</crown-edpws-binding>
-		</stacked-view>
-		<stacked-view id="SV_PageCalled">
-			<crown-binding property="value" name="CSK_MultiDataLogger/pageCalled"
-				path="result/data/empty" auto-update="0" update-on-resume>
-			</crown-binding>
-		</stacked-view>
-	</layout-column>
-	<layout-column id="ColumnLayout1" style="align-items: stretch">
-	</layout-column>
+					<layout-column id="ColumnLayout4" style="align-items: stretch">
+					</layout-column>
+                </layout-row>
+            </stacked-pane>
+            <crown-edpws-binding property="value" name="CSK_MultiDataLogger/OnNewStatusModuleIsActive"
+                update-on-resume converter="function(value) {return value.toString();}">
+            </crown-edpws-binding>
+        </stacked-view>
+        <stacked-view id="SV_PageCalled">
+            <crown-binding property="value" name="CSK_MultiDataLogger/pageCalled" path="result/data/empty"
+                auto-update="0" update-on-resume>
+            </crown-binding>
+            <crown-edpws-binding property="value" name="CSK_MultiDataLogger/OnNewStatusCSKStyle" update-on-resume
+                converter="changeStyle">
+            </crown-edpws-binding>
+        </stacked-view>
+    </layout-column>
 </layout-row>

@@ -5,6 +5,7 @@
 
 local availableAPIs = {}
 
+-- Function to load all default APIs
 local function loadAPIs()
   CSK_MultiDataLogger = require 'API.CSK_MultiDataLogger'
 
@@ -16,7 +17,6 @@ local function loadAPIs()
   Engine = require 'API.Engine'
   DateTime = require 'API.DateTime'
   File = require 'API.File'
-  Image = require 'API.Image'
   Object = require 'API.Object'
   Timer = require 'API.Timer'
 
@@ -27,18 +27,20 @@ local function loadAPIs()
       CSK_PersistentData = require 'API.CSK_PersistentData'
     elseif appList[i] == 'CSK_Module_UserManagement' then
       CSK_UserManagement = require 'API.CSK_UserManagement'
+    elseif appList[i] == 'CSK_Module_FlowConfig' then
+      CSK_FlowConfig = require 'API.CSK_FlowConfig'
     end
   end
 end
 
+-- Function to load specific APIs
 local function loadSpecificAPIs()
   -- If you want to check for specific APIs/functions supported on the device the module is running, place relevant APIs here
-  -- e.g.:
-  -- NTPClient = require 'API.NTPClient'
+  Image = require 'API.Image'
 end
 
 availableAPIs.default = xpcall(loadAPIs, debug.traceback) -- TRUE if all default APIs were loaded correctly
-availableAPIs.specific = xpcall(loadSpecificAPIs, debug.traceback) -- TRUE if all specific APIs were loaded correctly
+availableAPIs.imageSupport = xpcall(loadSpecificAPIs, debug.traceback) -- TRUE if all specific APIs were loaded correctly
 
 return availableAPIs
 --**************************************************************************
