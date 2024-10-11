@@ -270,14 +270,14 @@ If FALSE it is needed to call 'saveLog' manually to store log data.</desc>
                 <serves>
                     <function name="create">
                         <desc>Internally used CSK_FlowConfig create function.</desc>
-                        <param desc="Numeric identifier of processing instance (must be &gt;=1)." multiplicity="1" name="Instance" type="int"/>
+                        <param constraint="1-99" desc="Numeric identifier of processing instance." multiplicity="1" name="Instance" type="int"/>
                         <return desc="Handle to internally used FlowConfig instance." multiplicity="1" name="handle" type="handle"/>
                     </function>
                     <function name="dataSource">
                         <include>data-flow</include>
                         <desc>Set source of data to log.</desc>
                         <param desc="Handle to internally used FlowConfig instance." multiplicity="1" name="handle" type="handle"/>
-                        <param desc="Source of data to log.&#10;&#10;Parameter:&#10;1: Data source (STRING)" multiplicity="1" name="source" type="string"/>
+                        <param desc="Source of data to log.&#10;&#10;Parameter:&#10;1: Data (STRING or Image)" multiplicity="1" name="source" type="string"/>
                     </function>
                 </serves>
             </crown>

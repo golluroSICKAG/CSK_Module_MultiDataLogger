@@ -245,41 +245,48 @@
                                         <layout-row id="RowLayout12"
                                             style="align-items: center; justify-content: space-between">
                                             <layout-column id="ColumnLayout12" style="align-items: stretch">
-                                                <davinci-value-display id="VD_Path" value="Path:">
-                                                </davinci-value-display>
+												<davinci-value-display id="VD_Path" value="Path:"
+													title="Path where the data should be stored, like /public/data/">
+												</davinci-value-display>
                                             </layout-column>
                                             <layout-column id="ColumnLayout13" style="align-items: stretch">
-                                                <davinci-text-field id="TF_Path" type="text" placeholder="e.g. /public/data/">
-                                                    <crown-edpws-binding property="value"
-                                                        name="CSK_MultiDataLogger/OnNewStatusStoragePath" update-on-resume>
-                                                    </crown-edpws-binding>
-                                                    <crown-binding event="change" name="CSK_MultiDataLogger/setPath"
-                                                        path="param/args/path" auto-commit>
-                                                    </crown-binding>
-                                                </davinci-text-field>
+												<davinci-text-field id="TF_Path" type="text"
+													placeholder="e.g. /public/data/"
+													title="Path where the data should be stored, like /public/data/">
+												<crown-edpws-binding property="value"
+													name="CSK_MultiDataLogger/OnNewStatusStoragePath"
+													update-on-resume>
+												</crown-edpws-binding>
+												<crown-binding event="change" name="CSK_MultiDataLogger/setPath"
+													path="param/args/path" auto-commit>
+												</crown-binding>
+												</davinci-text-field>
                                             </layout-column>
                                         </layout-row>
                                         <layout-row id="RowLayout13"
                                             style="align-items: center; justify-content: space-between">
                                             <layout-column id="ColumnLayout14">
-                                                <davinci-value-display id="VD_Mode" value="Data mode:">
-                                                </davinci-value-display>
+												<davinci-value-display id="VD_Mode" value="Data mode:"
+													title="Select if string data or images should be stored.">
+												</davinci-value-display>
                                             </layout-column>
                                             <layout-column id="ColumnLayout15" style="align-items: stretch">
-                                                <davinci-drop-down id="DD_Mode">
-                                                    <davinci-option id="Option_File" value="file">
-                                                        <span>file</span>
-                                                    </davinci-option>
-                                                    <davinci-option id="Option_Image" value="image">
-                                                        <span>image</span>
-                                                    </davinci-option>
-                                                    <crown-edpws-binding property="value"
-                                                        name="CSK_MultiDataLogger/OnNewStatusDataMode" update-on-resume>
-                                                    </crown-edpws-binding>
-                                                    <crown-binding event="change" name="CSK_MultiDataLogger/setDataMode"
-                                                        path="param/args/mode" auto-commit>
-                                                    </crown-binding>
-                                                </davinci-drop-down>
+												<davinci-drop-down id="DD_Mode"
+													title="Select if string data or images should be stored.">
+												<davinci-option id="Option_File" value="file"
+													title="Save string data in multiple csv files or colelct data in single json file.">
+												<span>file</span>
+												</davinci-option>
+												<davinci-option id="Option_Image" value="image" title="Save images.">
+												<span>image</span>
+												</davinci-option>
+												<crown-edpws-binding property="value"
+													name="CSK_MultiDataLogger/OnNewStatusDataMode" update-on-resume>
+												</crown-edpws-binding>
+												<crown-binding event="change" name="CSK_MultiDataLogger/setDataMode"
+													path="param/args/mode" auto-commit>
+												</crown-binding>
+												</davinci-drop-down>
                                             </layout-column>
                                         </layout-row>
                                         <stacked-view id="SV_DataMode">
@@ -289,26 +296,28 @@
                                                         <layout-row id="RowLayout14"
                                                             style="justify-content: space-between; align-items: center">
                                                             <layout-column id="ColumnLayout16">
-                                                                <davinci-value-display id="VD_DataType" value="Data type:">
-                                                                </davinci-value-display>
+												<davinci-value-display id="VD_DataType" value="Data type:"
+													title="Select if string data should be stored as csv or json file.">
+												</davinci-value-display>
                                                             </layout-column>
                                                             <layout-column id="ColumnLayout17" style="align-items: stretch">
-                                                                <davinci-drop-down id="DD_DataType">
-                                                                    <davinci-option id="Option_Json" value="json">
-                                                                        <span>json</span>
-                                                                    </davinci-option>
-                                                                    <davinci-option id="Option_CSV" value="csv">
-                                                                        <span>csv</span>
-                                                                    </davinci-option>
-                                                                    <crown-edpws-binding property="value"
-                                                                        name="CSK_MultiDataLogger/OnNewStatusDataType"
-                                                                        update-on-resume>
-                                                                    </crown-edpws-binding>
-                                                                    <crown-binding event="change"
-                                                                        name="CSK_MultiDataLogger/setDataType"
-                                                                        path="param/args/dataType" auto-commit>
-                                                                    </crown-binding>
-                                                                </davinci-drop-down>
+												<davinci-drop-down id="DD_DataType"
+													title="Select if string data should be stored as csv or json file.">
+												<davinci-option id="Option_Json" value="json"
+													title="Every received data will be saved in its own json file.">
+												<span>json</span>
+												</davinci-option>
+												<davinci-option id="Option_CSV" value="csv"
+													title="All received data will be saved in one single csv file, optionally with labels.">
+												<span>csv</span>
+												</davinci-option>
+												<crown-edpws-binding property="value"
+													name="CSK_MultiDataLogger/OnNewStatusDataType" update-on-resume>
+												</crown-edpws-binding>
+												<crown-binding event="change" name="CSK_MultiDataLogger/setDataType"
+													path="param/args/dataType" auto-commit>
+												</crown-binding>
+												</davinci-drop-down>
                                                             </layout-column>
                                                         </layout-row>
                                                         <stacked-view id="SV_CSV">
@@ -319,50 +328,50 @@
                                                                     </layout-column>
                                                                     <layout-column id="ColumnLayout29"
                                                                         style="align-items: stretch">
-                                                                        <davinci-text-field id="TF_CSVFilename" type="text"
-                                                                            label="Filename">
-                                                                            <crown-edpws-binding property="value"
-                                                                                name="CSK_MultiDataLogger/OnNewStatusCSVFilename"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
-                                                                            <crown-binding event="change"
-                                                                                name="CSK_MultiDataLogger/setCSVFilename"
-                                                                                path="param/args/name" auto-commit>
-                                                                            </crown-binding>
-                                                                        </davinci-text-field>
-                                                                        <davinci-text-field id="TF_CSVLabels" type="text"
-                                                                            label="CSV labels">
-                                                                            <crown-edpws-binding property="value"
-                                                                                name="CSK_MultiDataLogger/OnNewStatusCSVLables"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
-                                                                            <crown-binding event="change"
-                                                                                name="CSK_MultiDataLogger/setCSVLabels"
-                                                                                path="param/args/labels" auto-commit>
-                                                                            </crown-binding>
-                                                                        </davinci-text-field>
-                                                                        <davinci-checkbox id="CB_ChangesOnly">
-                                                                            <span>Log value changes only</span>
-                                                                            <crown-edpws-binding property="checked"
-                                                                                name="CSK_MultiDataLogger/OnNewStatusSaveOnlyChanges"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
-                                                                            <crown-binding event="change"
-                                                                                name="CSK_MultiDataLogger/setSaveOnlyChanges"
-                                                                                path="param/args/status" auto-commit>
-                                                                            </crown-binding>
-                                                                        </davinci-checkbox>
-                                                                        <davinci-checkbox id="CB_AutoSave">
-                                                                            <span>Save new data automatically</span>
-                                                                            <crown-edpws-binding property="checked"
-                                                                                name="CSK_MultiDataLogger/OnNewStatusSaveDataDirectly"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
-                                                                            <crown-binding event="change"
-                                                                                name="CSK_MultiDataLogger/setSaveDataDirectly"
-                                                                                path="param/args/status" auto-commit>
-                                                                            </crown-binding>
-                                                                        </davinci-checkbox>
+												<davinci-text-field id="TF_CSVFilename" type="text" label="Filename"
+													title="Name of csv file to save.">
+												<crown-edpws-binding property="value"
+													name="CSK_MultiDataLogger/OnNewStatusCSVFilename"
+													update-on-resume>
+												</crown-edpws-binding>
+												<crown-binding event="change"
+													name="CSK_MultiDataLogger/setCSVFilename" path="param/args/name"
+													auto-commit>
+												</crown-binding>
+												</davinci-text-field>
+												<davinci-text-field id="TF_CSVLabels" type="text" label="CSV labels"
+													title="Optional labels to use for csv file, like Timestamp, LabelA, LabelB">
+												<crown-edpws-binding property="value"
+													name="CSK_MultiDataLogger/OnNewStatusCSVLables" update-on-resume>
+												</crown-edpws-binding>
+												<crown-binding event="change" name="CSK_MultiDataLogger/setCSVLabels"
+													path="param/args/labels" auto-commit>
+												</crown-binding>
+												</davinci-text-field>
+												<davinci-checkbox id="CB_ChangesOnly"
+													title="Only create new log entry if data is different to previous one.">
+												<span>Log value changes only</span>
+												<crown-edpws-binding property="checked"
+													name="CSK_MultiDataLogger/OnNewStatusSaveOnlyChanges"
+													update-on-resume>
+												</crown-edpws-binding>
+												<crown-binding event="change"
+													name="CSK_MultiDataLogger/setSaveOnlyChanges"
+													path="param/args/status" auto-commit>
+												</crown-binding>
+												</davinci-checkbox>
+												<davinci-checkbox id="CB_AutoSave"
+													title="Automatically save data if a new data entry was added to csv file.">
+												<span>Save new data automatically</span>
+												<crown-edpws-binding property="checked"
+													name="CSK_MultiDataLogger/OnNewStatusSaveDataDirectly"
+													update-on-resume>
+												</crown-edpws-binding>
+												<crown-binding event="change"
+													name="CSK_MultiDataLogger/setSaveDataDirectly"
+													path="param/args/status" auto-commit>
+												</crown-binding>
+												</davinci-checkbox>
                                                                         <davinci-callout id="Callout_WriteCycles" type="info">
                                                                             <span>
 		        										Be aware of possibly fast repetitive write cycles. Should not be performed on internal flash memory of device ...
@@ -396,8 +405,9 @@
                                                         <layout-row id="RowLayout15"
                                                             style="justify-content: space-between; align-items: center">
                                                             <layout-column id="ColumnLayout18" style="align-items: stretch">
-                                                                <davinci-value-display id="VD_ImageType" value="Image type:">
-                                                                </davinci-value-display>
+												<davinci-value-display id="VD_ImageType" value="Image type:"
+													title="Type of images to save.">
+												</davinci-value-display>
                                                             </layout-column>
                                                             <layout-column id="ColumnLayout19" style="align-items: stretch">
                                                                 <davinci-drop-down id="DD_ImageType">

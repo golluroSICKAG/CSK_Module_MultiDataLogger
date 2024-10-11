@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 
 ### Improvements
 - New UI design available (e.g. selectable via CSK_Module_PersistentData v4.1.0 or higher), see 'OnNewStatusCSKStyle'
+- Added info texts within UI
 - Extra check if Image CROWN is available to log images
 - check if instance exists if selected
 - 'loadParameters' returns its success
@@ -22,6 +23,8 @@ All notable changes to this project will be documented in this file.
 ### Bugfix
 - Never deregistered from events
 - Wrong check of dataType to update image type
+- Error if module is not active but 'getInstancesAmount' was called
+- Wrong variable used within 'setCSVFilename'
 
 ## Release 1.0.0
 - Initial commit

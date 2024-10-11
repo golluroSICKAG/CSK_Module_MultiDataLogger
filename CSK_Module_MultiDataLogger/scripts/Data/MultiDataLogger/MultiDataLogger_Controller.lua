@@ -172,7 +172,7 @@ end
 --- Function to send all relevant values to UI on resume
 local function handleOnExpiredTmrMultiDataLogger()
 
-  Script.notifyEvent("MultiDataLogger_OnNewStatusModuleVersion", multiDataLogger_Model.version)
+  Script.notifyEvent("MultiDataLogger_OnNewStatusModuleVersion", 'v' .. multiDataLogger_Model.version)
   Script.notifyEvent("MultiDataLogger_OnNewStatusCSKStyle", multiDataLogger_Model.styleForUI)
   Script.notifyEvent("MultiDataLogger_OnNewStatusModuleIsActive", _G.availableAPIs.default)
 
@@ -233,7 +233,11 @@ end
 Script.serveFunction("CSK_MultiDataLogger.setSelectedInstance", setSelectedInstance)
 
 local function getInstancesAmount ()
-  return #multiDataLogger_Instances
+  if multiDataLogger_Instances then
+    return #multiDataLogger_Instances
+  else
+    return 0
+  end
 end
 Script.serveFunction("CSK_MultiDataLogger.getInstancesAmount", getInstancesAmount)
 
@@ -334,7 +338,7 @@ end
 Script.serveFunction('CSK_MultiDataLogger.setDataType', setDataType)
 
 local function setCSVFilename(name)
-  _G.logger:fine(nameOfModule .. ": Set csv filename to " .. labels)
+  _G.logger:fine(nameOfModule .. ": Set csv filename to " .. tostring(name))
   multiDataLogger_Instances[selectedInstance].parameters.csvFilename = name
   Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'csvFilename', name)
 end
