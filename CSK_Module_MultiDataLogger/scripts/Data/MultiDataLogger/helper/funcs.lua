@@ -157,9 +157,7 @@ local function createRecursiveFolder(pos, path)
       return createRecursiveFolder(foundPos+1, path)
     else
       local folderExists = File.isdir(path)
-      if folderExists then
-        --_G.logger:info(nameOfModule .. ': Folder: "' .. path .. '" already exists.')
-      else
+      if not folderExists then
         local suc = File.mkdir(path)
         return
       end
@@ -190,18 +188,20 @@ local function getAvailableEvents()
       local crownName = 'CSK' .. string.sub(value, startPos, #value)
       local content = Engine.getCrownAsXML(crownName)
       local lastSearchPos = 0
+      if content then
 
-      while true do
-        local _, eventStart = string.find(content, 'event name="', lastSearchPos)
-        if eventStart then
-          lastSearchPos = eventStart+1
-          local endPos = string.find(content, '"', eventStart+1)
-          if endPos then
-            local eventName = crownName .. '.' .. string.sub(content, eventStart+1, endPos-1)
-            table.insert(listOfEvents, eventName)
+        while true do
+          local _, eventStart = string.find(content, 'event name="', lastSearchPos)
+          if eventStart then
+            lastSearchPos = eventStart+1
+            local endPos = string.find(content, '"', eventStart+1)
+            if endPos then
+              local eventName = crownName .. '.' .. string.sub(content, eventStart+1, endPos-1)
+              table.insert(listOfEvents, eventName)
+            end
+          else
+            break
           end
-        else
-          break
         end
       end
     end

@@ -147,6 +147,11 @@ local function handleOnNewProcessingParameter(multiDataLoggerNo, parameter, valu
       processingParams.registeredEvent = value
       Script.register(value, handleOnNewProcessing)
 
+    elseif parameter == 'deregisterEvent' then
+      if processingParams.registeredEvent ~= '' then
+        Script.deregister(processingParams.registeredEvent, handleOnNewProcessing)
+      end
+
     elseif parameter == 'path' then
 
       helperFuncs.createFolder(value)

@@ -13,11 +13,21 @@ local nameOfModule = 'CSK_MultiDataLogger'
 local multiDataLogger = {}
 multiDataLogger.__index = multiDataLogger
 
+multiDataLogger.styleForUI = 'None' -- Optional parameter to set UI style
+multiDataLogger.version = Engine.getCurrentAppVersion() -- Version of module
+
 --**************************************************************************
 --********************** End Global Scope **********************************
 --**************************************************************************
 --**********************Start Function Scope *******************************
 --**************************************************************************
+
+--- Function to react on UI style change
+local function handleOnStyleChanged(theme)
+  multiDataLogger.styleForUI = theme
+  Script.notifyEvent("MultiDataLogger_OnNewStatusCSKStyle", multiDataLogger.styleForUI)
+end
+Script.register('CSK_PersistentData.OnNewStatusCSKStyle', handleOnStyleChanged)
 
 --- Function to create new instance
 ---@param multiDataLoggerInstanceNo int Number of instance
@@ -47,6 +57,7 @@ function multiDataLogger.create(multiDataLoggerInstanceNo)
 
   -- Parameters to be saved permanently if wanted
   self.parameters = {}
+  self.parameters.flowConfigPriority = CSK_FlowConfig ~= nil or false -- Status if FlowConfig should have priority for FlowConfig relevant configurations
   self.parameters.registeredEvent = '' -- If thread internal function should react on external event, define it here, e.g. 'CSK_OtherModule.OnNewInput'
   self.parameters.processingFile = 'CSK_MultiDataLogger_Processing' -- which file to use for processing (will be started in own thread)
   self.parameters.path = '/public/'
