@@ -57,20 +57,7 @@ function multiDataLogger.create(multiDataLoggerInstanceNo)
 
   -- Parameters to be saved permanently if wanted
   self.parameters = {}
-  self.parameters.flowConfigPriority = CSK_FlowConfig ~= nil or false -- Status if FlowConfig should have priority for FlowConfig relevant configurations
-  self.parameters.registeredEvent = '' -- If thread internal function should react on external event, define it here, e.g. 'CSK_OtherModule.OnNewInput'
-  self.parameters.processingFile = 'CSK_MultiDataLogger_Processing' -- which file to use for processing (will be started in own thread)
-  self.parameters.path = '/public/'
-
-  self.parameters.dataMode = 'file' -- Mode to log data like 'image', 'file'
-  self.parameters.dataType = 'json' -- 'json', 'csv'
-  self.parameters.csvFilename = 'csvFile'
-  self.parameters.csvLabels = '' -- e.g. 'DateTime, ValueA, ValueB'
-  self.parameters.saveOnlyChanges = true
-  self.parameters.saveDataDirectly = false
-
-  self.parameters.imageType = 'bmp' -- 'jpg', 'png', 'json', 'msgpack', 'bmp'
-  self.parameters.imageCompressionValue = 80
+  self.parameters = self.helperFuncs.defaultParameters.getParameters() -- Load default parameters
 
   -- Parameters to give to the processing script
   self.multiDataLoggerProcessingParams = Container.create()
@@ -81,6 +68,8 @@ function multiDataLogger.create(multiDataLoggerInstanceNo)
   self.multiDataLoggerProcessingParams:add('dataType', self.parameters.dataType, "STRING")
   self.multiDataLoggerProcessingParams:add('csvFilename', self.parameters.csvFilename, "STRING")
   self.multiDataLoggerProcessingParams:add('csvLabels', self.parameters.csvLabels, "STRING")
+  self.multiDataLoggerProcessingParams:add('csvLimit', self.parameters.csvLimit, "BOOL")
+  self.multiDataLoggerProcessingParams:add('csvLimitAmount', self.parameters.csvLimitAmount, "INT")
   self.multiDataLoggerProcessingParams:add('saveOnlyChanges', self.parameters.saveOnlyChanges, "BOOL")
   self.multiDataLoggerProcessingParams:add('saveDataDirectly', self.parameters.saveDataDirectly, "BOOL")
   self.multiDataLoggerProcessingParams:add('imageType', self.parameters.imageType, "STRING")

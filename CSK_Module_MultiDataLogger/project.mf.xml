@@ -159,6 +159,14 @@ NUM will be replaced by the number of instance (e.g. "OnNewValueToForward1"). +<
                     <desc>Notify version of module.</desc>
                     <param desc="Version" multiplicity="1" name="version" type="string"/>
                 </event>
+                <event name="OnNewStatusLimitCSVEntries">
+                    <desc>Notify status if CSV entries are limited.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnNewStatusCSVLimitAmount">
+                    <desc>Notify limit of entries in CSV file.</desc>
+                    <param desc="Limit of CSV entries." multiplicity="1" name="limit" type="int"/>
+                </event>
                 <function name="setParameterName">
                     <desc>Function to set the name of the parameters if saved/loaded via the CSK_PersistentData module.</desc>
                     <param desc="Name of the parameter" multiplicity="1" name="name" type="string"/>
@@ -259,6 +267,14 @@ If FALSE it is needed to call 'saveLog' manually to store log data.</desc>
                 <function name="resetModule">
                     <desc>Function to reset main configuration of module.</desc>
                 </function>
+                <function name="setCSVLimit">
+                    <desc>Function to set status if CSV entries should be limited.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </function>
+                <function name="setCSVLimitAmount">
+                    <desc>Function to set maximum amount of CSV entries if it is limited.</desc>
+                    <param desc="Amount of maximum CSV entries." multiplicity="1" name="amount" type="int"/>
+                </function>
             </serves>
         </crown>
         <crown name="MultiDataLogger_FC">
@@ -283,7 +299,7 @@ If FALSE it is needed to call 'saveLog' manually to store log data.</desc>
             </crown>
         </crown>
         <meta key="author">SICK AG</meta>
-        <meta key="version">2.0.0</meta>
+        <meta key="version">2.1.0</meta>
         <meta key="priority">low</meta>
         <meta key="copy-protected">false</meta>
         <meta key="read-protected">false</meta>

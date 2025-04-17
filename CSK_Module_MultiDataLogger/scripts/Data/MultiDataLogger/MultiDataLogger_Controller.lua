@@ -45,8 +45,11 @@ Script.serveEvent('CSK_MultiDataLogger.OnNewStatusDataMode', 'MultiDataLogger_On
 Script.serveEvent('CSK_MultiDataLogger.OnNewStatusDataType', 'MultiDataLogger_OnNewStatusDataType')
 
 Script.serveEvent('CSK_MultiDataLogger.OnNewStatusCSVFilename', 'MultiDataLogger_OnNewStatusCSVFilename')
-
 Script.serveEvent('CSK_MultiDataLogger.OnNewStatusCSVLables', 'MultiDataLogger_OnNewStatusCSVLables')
+
+Script.serveEvent('CSK_MultiDataLogger.OnNewStatusLimitCSVEntries', 'MultiDataLogger_OnNewStatusLimitCSVEntries')
+Script.serveEvent('CSK_MultiDataLogger.OnNewStatusCSVLimitAmount', 'MultiDataLogger_OnNewStatusCSVLimitAmount')
+
 Script.serveEvent("CSK_MultiDataLogger.OnNewStatusSaveDataDirectly", "MultiDataLogger_OnNewStatusSaveDataDirectly")
 Script.serveEvent("CSK_MultiDataLogger.OnNewStatusSaveOnlyChanges", "MultiDataLogger_OnNewStatusSaveOnlyChanges")
 
@@ -194,6 +197,10 @@ local function handleOnExpiredTmrMultiDataLogger()
 
     Script.notifyEvent("MultiDataLogger_OnNewStatusCSVFilename", multiDataLogger_Instances[selectedInstance].parameters.csvFilename)
     Script.notifyEvent("MultiDataLogger_OnNewStatusCSVLables", multiDataLogger_Instances[selectedInstance].parameters.csvLabels)
+
+    Script.notifyEvent("MultiDataLogger_OnNewStatusLimitCSVEntries", multiDataLogger_Instances[selectedInstance].parameters.csvLimit)
+    Script.notifyEvent("MultiDataLogger_OnNewStatusCSVLimitAmount", multiDataLogger_Instances[selectedInstance].parameters.csvLimitAmount)
+
     Script.notifyEvent("MultiDataLogger_OnNewStatusSaveDataDirectly", multiDataLogger_Instances[selectedInstance].parameters.saveDataDirectly)
     Script.notifyEvent("MultiDataLogger_OnNewStatusSaveOnlyChanges", multiDataLogger_Instances[selectedInstance].parameters.saveOnlyChanges)
 
@@ -281,6 +288,9 @@ local function updateProcessingParameters()
   Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'dataType', multiDataLogger_Instances[selectedInstance].parameters.dataType)
   Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'csvFilename', multiDataLogger_Instances[selectedInstance].parameters.csvFilename)
   Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'csvLabels', multiDataLogger_Instances[selectedInstance].parameters.csvLabels)
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'csvLimit', multiDataLogger_Instances[selectedInstance].parameters.csvLimit)
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'csvLimitAmount', multiDataLogger_Instances[selectedInstance].parameters.csvLimitAmount)
+
   Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'imageType', multiDataLogger_Instances[selectedInstance].parameters.imageType)
   Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'imageCompressionValue', multiDataLogger_Instances[selectedInstance].parameters.selectedInstance)
 
@@ -338,18 +348,33 @@ end
 Script.serveFunction('CSK_MultiDataLogger.setDataType', setDataType)
 
 local function setCSVFilename(name)
-  _G.logger:fine(nameOfModule .. ": Set csv filename to " .. tostring(name))
+  _G.logger:fine(nameOfModule .. ": Set CSV filename to " .. tostring(name))
   multiDataLogger_Instances[selectedInstance].parameters.csvFilename = name
   Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'csvFilename', name)
 end
 Script.serveFunction('CSK_MultiDataLogger.setCSVFilename', setCSVFilename)
 
 local function setCSVLabels(labels)
-  _G.logger:fine(nameOfModule .. ": Set csv labels to " .. labels)
+  _G.logger:fine(nameOfModule .. ": Set CSV labels to " .. labels)
   multiDataLogger_Instances[selectedInstance].parameters.csvLabels = labels
   Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'csvLabels', labels)
 end
 Script.serveFunction('CSK_MultiDataLogger.setCSVLabels', setCSVLabels)
+
+local function setCSVLimit(status)
+  _G.logger:fine(nameOfModule .. ": Set CSV limit to " .. tostring(status))
+  multiDataLogger_Instances[selectedInstance].parameters.csvLimit = status
+  Script.notifyEvent("MultiDataLogger_OnNewStatusLimitCSVEntries", status)
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'csvLimit', status)
+end
+Script.serveFunction('CSK_MultiDataLogger.setCSVLimit', setCSVLimit)
+
+local function setCSVLimitAmount(amount)
+  _G.logger:fine(nameOfModule .. ": Set CSV limit amount to " .. tostring(amount))
+  multiDataLogger_Instances[selectedInstance].parameters.csvLimitAmount = amount
+  Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', selectedInstance, 'csvLimitAmount', amount)
+end
+Script.serveFunction('CSK_MultiDataLogger.setCSVLimitAmount', setCSVLimitAmount)
 
 local function setSaveOnlyChanges(status)
   multiDataLogger_Instances[selectedInstance].parameters.saveOnlyChanges = status
@@ -445,6 +470,8 @@ local function loadParameters()
     if data then
       _G.logger:info(nameOfModule .. ": Loaded parameters for multiDataLoggerObject " .. tostring(selectedInstance) .. " from CSK_PersistentData module.")
       multiDataLogger_Instances[selectedInstance].parameters = helperFuncs.convertContainer2Table(data)
+
+      multiDataLogger_Instances[selectedInstance].parameters = helperFuncs.checkParameters(multiDataLogger_Instances[selectedInstance].parameters, helperFuncs.defaultParameters)
 
       -- If something needs to be configured/activated with new loaded data
       updateProcessingParameters()

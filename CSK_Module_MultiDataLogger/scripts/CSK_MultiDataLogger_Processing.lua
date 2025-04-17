@@ -29,31 +29,20 @@ processingParams.dataMode = scriptParams:get('dataMode') -- Mode to log data
 processingParams.dataType = scriptParams:get('dataType') -- Type of data to log
 processingParams.csvFilename = scriptParams:get('csvFilename') -- CSV filename
 processingParams.csvLabels = scriptParams:get('csvLabels') -- CSV labels
+processingParams.csvLimit = scriptParams:get('csvLimit') -- CSV entries limited
+processingParams.csvLimitAmount = scriptParams:get('csvLimitAmount') -- Maximum amount of CSV entries if limited
 processingParams.saveOnlyChanges = scriptParams:get('saveOnlyChanges') -- Only save changes within CSV file
 processingParams.saveDataDirectly = scriptParams:get('saveDataDirectly') -- Save CSV data automatically
 processingParams.imageType = scriptParams:get('imageType') -- Mode to log data
 processingParams.imageCompressionValue = scriptParams:get('imageCompressionValue') -- Mode to log data
 
-local latestValue = ''
-local dataArray = {}
+local latestValue = '' -- Latest received data to log
+local dataArray = {} -- Table to store logging data
 
 --- Function to save temp log to file
 local function saveCSVLog()
 
-  local success
   local completeFilepath = processingParams.path .. processingParams.csvFilename .. '.csv'
-
-  if not File.exists(completeFilepath) then
-    local data = processingParams.csvLabels .. "\n"
-    local newFile = File.open(completeFilepath, "wb")
-
-    if (newFile ~= nil) then
-      success = File.write(newFile, data)
-      File.close(newFile)
-    else
-      _G.logger:warning(nameOfModule .. ": Did not work to create data file.")
-    end
-  end
 
   local data = ''
   for i = 1, #dataArray do
@@ -64,11 +53,39 @@ local function saveCSVLog()
     end
   end
 
-  local file = File.open(completeFilepath, "ab")
-  if (file ~= nil) then
-    success = File.write(file, data)
-    File.close(file)
-    dataArray = {}
+  if processingParams.csvLimit then
+    local fullData = processingParams.csvLabels .. "\n" .. data
+    local limitedFile = File.open(completeFilepath, "wb")
+    if (limitedFile ~= nil) then
+      local success = File.write(limitedFile, fullData)
+      File.close(limitedFile)
+      if not success then
+        _G.logger:warning(nameOfModule .. ": Did not work to write data to file.")
+      end
+    end
+
+  else
+    if not File.exists(completeFilepath) then
+      local labelData = processingParams.csvLabels .. "\n"
+      local newFile = File.open(completeFilepath, "wb")
+
+      if (newFile ~= nil) then
+        File.write(newFile, labelData)
+        File.close(newFile)
+      else
+        _G.logger:warning(nameOfModule .. ": Did not work to create data file.")
+      end
+    end
+
+    local file = File.open(completeFilepath, "ab")
+    if (file ~= nil) then
+      local success = File.write(file, data)
+      File.close(file)
+      if not success then
+        _G.logger:warning(nameOfModule .. ": Did not work to write data to file.")
+      end
+      dataArray = {}
+    end
   end
 end
 
@@ -91,6 +108,11 @@ local function handleOnNewProcessing(dataContent, filename)
         logKeyPair[formDateTime] = dataAsString
 
         --Save with indeces
+        if processingParams.csvLimit then
+          while #dataArray >= processingParams.csvLimitAmount do
+            table.remove(dataArray, 1)
+          end
+        end
         dataArray[(#dataArray+1)] = logKeyPair
         latestValue = dataAsString
 
@@ -164,6 +186,12 @@ local function handleOnNewProcessingParameter(multiDataLoggerNo, parameter, valu
 
     elseif parameter == 'saveCSVFile' then
       saveCSVLog()
+
+    elseif parameter == 'csvLimit' then
+      if processingParams['csvLimit'] == true and value == false then
+        dataArray = {}
+      end
+      processingParams[parameter] = value
 
     else
       processingParams[parameter] = value
