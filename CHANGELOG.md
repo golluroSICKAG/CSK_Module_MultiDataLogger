@@ -7,6 +7,9 @@ All notable changes to this project will be documented in this file.
 - Optionally limit entries of CSV file
 - Check if persistent data to load provides all relevant parameters. Otherwise add default values
 
+### Improvements
+- FlowConfig handling
+
 ### Bugfix
 - Legacy bindings of ValueDisplay elements within UI did not work if deployed with VS Code AppSpace SDK
 - UI differs if deployed via Appstudio or VS Code AppSpace SDK

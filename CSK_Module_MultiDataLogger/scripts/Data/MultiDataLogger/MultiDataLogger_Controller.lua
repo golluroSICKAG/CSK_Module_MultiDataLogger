@@ -418,9 +418,11 @@ Script.serveFunction('CSK_MultiDataLogger.getStatusModuleActive', getStatusModul
 
 local function clearFlowConfigRelevantConfiguration()
   for i = 1, #multiDataLogger_Instances do
-    Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', i, 'deregisterEvent', true)
-    multiDataLogger_Instances[i].parameters.registeredEvent = ''
-    Script.notifyEvent("MultiDataLogger_OnNewStatusRegisteredEvent", '')
+    if multiDataLogger_Instances[i].parameters.flowConfigPriority then
+      Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', i, 'deregisterEvent', true)
+      multiDataLogger_Instances[i].parameters.registeredEvent = ''
+      Script.notifyEvent("MultiDataLogger_OnNewStatusRegisteredEvent", '')
+    end
   end
 end
 Script.serveFunction('CSK_MultiDataLogger.clearFlowConfigRelevantConfiguration', clearFlowConfigRelevantConfiguration)
@@ -562,7 +564,11 @@ Script.register("CSK_PersistentData.OnInitialDataLoaded", handleOnInitialDataLoa
 
 local function resetModule()
   if _G.availableAPIs.default then
-    clearFlowConfigRelevantConfiguration()
+    for i = 1, #multiDataLogger_Instances do
+      Script.notifyEvent('MultiDataLogger_OnNewProcessingParameter', i, 'deregisterEvent', true)
+      multiDataLogger_Instances[i].parameters.registeredEvent = ''
+      Script.notifyEvent("MultiDataLogger_OnNewStatusRegisteredEvent", '')
+    end
     pageCalled()
   end
 end

@@ -53,10 +53,9 @@ local multiDataLogger_Instances = {} -- Handle all instances
 local multiDataLoggerController = require('Data/MultiDataLogger/MultiDataLogger_Controller')
 
 if _G.availableAPIs.default then
-  local setInstanceHandle = require('Data/MultiDataLogger/FlowConfig/MultiDataLogger_FlowConfig')
+  require('Data/MultiDataLogger/FlowConfig/MultiDataLogger_FlowConfig')
   table.insert(multiDataLogger_Instances, multiDataLogger_Model.create(1))
   multiDataLoggerController.setMultiDataLogger_Instances_Handle(multiDataLogger_Instances) -- share handle of instances
-  setInstanceHandle(multiDataLogger_Instances)
 else
   _G.logger:warning("CSK_MultiDataLogger: Relevant CROWN(s) not available on device. Module is not supported...")
 end
