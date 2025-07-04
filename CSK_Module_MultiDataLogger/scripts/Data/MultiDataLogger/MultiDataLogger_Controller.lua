@@ -473,7 +473,7 @@ local function loadParameters()
       _G.logger:info(nameOfModule .. ": Loaded parameters for multiDataLoggerObject " .. tostring(selectedInstance) .. " from CSK_PersistentData module.")
       multiDataLogger_Instances[selectedInstance].parameters = helperFuncs.convertContainer2Table(data)
 
-      multiDataLogger_Instances[selectedInstance].parameters = helperFuncs.checkParameters(multiDataLogger_Instances[selectedInstance].parameters, helperFuncs.defaultParameters)
+      multiDataLogger_Instances[selectedInstance].parameters = helperFuncs.checkParameters(multiDataLogger_Instances[selectedInstance].parameters, helperFuncs.defaultParameters.getParameters())
 
       -- If something needs to be configured/activated with new loaded data
       updateProcessingParameters()
